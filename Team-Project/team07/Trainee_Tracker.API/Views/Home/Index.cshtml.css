@@ -1,0 +1,34 @@
+.home-hero {
+  padding: 4rem 1.5rem;
+}
+
+.home-subtitle {
+  color: var(--color-Grey2);
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+}
+
+.home-actions {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.home-cta {
+  display: inline-block;
+  padding: 0.9rem 1.75rem;
+  border-radius: var(--border-radius);
+  background: var(--gradient-Pink-Peach);
+  color: var(--color-White);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.home-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 8, 68, 0.35);
+  color: var(--color-White);
+}

@@ -1,0 +1,24 @@
+body.layout {
+  background-color: var(--color-White);
+  color: var(--color-Licorice);
+  margin: 0;
+  padding: 0;
+}
+
+.page {
+  margin: 0;
+  padding: 0;
+}
+.centered {
+  display: flex;
+  justify-content: center; /* Horizontal centering */
+  align-items: center;     /* Vertical centering */
+}
+.columns--column {
+  max-height: 1000px !important;
+}
+
+.columns{
+  padding: 20px !important;
+  margin: 20px !important;
+}

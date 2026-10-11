@@ -1,0 +1,169 @@
+@using Trainee_Tracker.Core.Service
+@using Trainee_Tracker.Core.Entity
+@using Trainee_Tracker.Core.Enums
+
+@model IEnumerable<LessonProgress>
+
+@{
+  // Set the page title within the ViewData dictionary for layout layout rendering
+  ViewData["Title"] = "Lesson Status";
+
+  // Use only the trainee progress selected and validated by the controller.
+  IEnumerable<LessonProgress> progresses =
+    Model ?? Enumerable.Empty<LessonProgress>();
+}
+
+  <main class="layout--page" id="content">
+    <div class="page">
+
+      @* --- Header Section --- *@
+      <div class="page-row">
+        <div id="lessons-heading">
+          <h1 class="page-title">LESSONS</h1>
+
+          @if (ViewBag.IsAdminView == true)
+          {
+            @* Show which trainee was selected by the administrator. *@
+            <p>
+              Viewing lesson progress for:
+              <strong>@ViewBag.SelectedTraineeName</strong>
+            </p>
+          }
+        </div>
+      </div>
+
+      <div class="page-row-spacer"></div>
+
+      <div class="page-row">
+        <div id="board-container">
+        <partial name="LessonBoardPartial" model="progresses"
+                 view-data='new ViewDataDictionary(ViewData) { { "IsTrainee", true } }' />
+        </div>
+      </div>
+
+    </div>
+
+    @if (ViewBag.IsAdminView != true)
+    {
+      <div class="centered">
+        <a class="custom-btn" href="/Feedback/AllFeedbacks">
+          See all Feedback
+        </a>
+      </div>
+    }
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr@@6.0.1/dist/browser/signalr.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script>
+    let currentConnectionId = "LS";
+
+    const connection = new signalR.HubConnectionBuilder()
+    .withUrl("/curriculumHub")
+    .withAutomaticReconnect()
+    .build();
+
+    connection.start()
+    .then(() => {
+    currentConnectionId = connection.connectionId;
+    window.currentConnectionId = currentConnectionId;
+    console.log("Connected seamlessly. Connection ID:", currentConnectionId);
+    })
+    .catch(err => console.error("SignalR Connection Error: ", err));
+
+    connection.on("RefreshCurriculumData", (curriculumId) => {
+    window.location.reload();
+    });
+  </script>
+  <script>
+    window.LessonStatus = Object.freeze({
+    @foreach (var status in Enum.GetValues(typeof(Trainee_Tracker.Core.Enums.LessonStatus)))
+    {
+      @:@status.ToString(): @((int)status),
+    }
+    });
+    @* Administrators receive trainee and mentor status transitions. *@
+    @if (ViewBag.IsAdminView == true)
+    {
+      <text>
+        window.AllowedTransitions = Object.freeze({
+          'open': ['started', 'skipped'],
+          'started': ['open', 'finished'],
+          'finished': ['started', 'accepted'],
+          'rejected': ['finished'],
+          'accepted': ['finished'],
+          'skipped': ['open'],
+          'rated': []
+        });
+      </text>
+    }
+    else
+    {
+      <text>
+        window.AllowedTransitions = Object.freeze({
+          'open': ['started'],
+          'started': ['open', 'finished'],
+          'finished': ['started'],
+          'rejected': ['finished'],
+          'accepted': ['rated'],
+          'rated': [],
+          'skipped': []
+        });
+      </text>
+    }
+  </script>
+  <script src="~/js/lesson-drag-drop.js" defer></script>
+  <script>
+    // Maps each lesson-progress card (card id = progress id) to the lesson it
+    // belongs to, so the feedback pages know which lesson is meant.
+    window.LessonIdByProgress = Object.freeze({
+    @foreach (var progress in progresses)
+    {
+      @:'@progress.id': '@progress.lessonId',
+    }
+    });
+
+    // Identify whether the lesson board is displayed in an administrator context.
+    const isAdminView =
+      @((ViewBag.IsAdminView == true).ToString().ToLowerInvariant());
+
+    function makeCardButton(cssClass, text, href) { 
+      const btn = document.createElement('a');
+      btn.className = cssClass + ' custom-btn';
+      btn.style.marginTop = '0.5rem';
+      btn.textContent = text;
+      btn.href = href;
+      return btn;
+    }
+
+    function addFeedbackButtons() {
+      if (isAdminView) {
+        return;
+      }
+
+      // Remove feedback buttons from cards outside the Accepted column.
+      document.querySelectorAll('.columns--column:not([data-status="accepted"]) .feedback-btn')
+        .forEach(btn => btn.remove());
+
+      // Accepted cards get a "Give Feedback" button
+      document.querySelectorAll('.columns--column[data-status="accepted"] .lesson-card').forEach(card => {
+        if (card.querySelector('.feedback-btn')) return;
+
+        const lessonId = window.LessonIdByProgress[card.id];
+
+        if (!lessonId) return;
+
+        card.appendChild(makeCardButton(
+          'feedback-btn',
+          'Give Feedback',
+          '/Trainee/Feedback?lessonId=' + encodeURIComponent(lessonId)
+            + '&progressId=' + encodeURIComponent(card.id)));
+      });
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      addFeedbackButtons();
+      // The board can be replaced via AJAX (GetLessonBoardPartial), so re-add
+      // the buttons whenever its content changes.
+      new MutationObserver(addFeedbackButtons)
+        .observe(document.getElementById('board-container'), { childList: true, subtree: true });
+    });
+  </script>

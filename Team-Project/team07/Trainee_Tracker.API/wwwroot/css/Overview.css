@@ -1,0 +1,258 @@
+/* Page-specific rules on top of the shared dashboard theme in site.css.
+   Trainee/Overview shows two side-by-side columns, so it overrides .dashboard
+   to a two-column grid instead of the shared single-row flex layout. */
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+@media (max-width: 768px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* CALENDAR */
+
+.calendar-section {
+    min-width: 0;
+
+    background: #FFFFFF;
+
+    border-radius: 12px;
+
+    padding: 15px;
+
+    display: flex;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+
+#calendar {
+    width: 100%;
+    height: 100%;
+
+    background: white;
+
+    border-radius: 10px;
+
+    padding: 10px;
+}
+
+
+.fc {
+    min-height: 700px;
+    font-family: "Open Sans";
+}
+
+
+/* Calendar Events */
+
+.fc .fc-daygrid-event {
+
+    background: var(--color-Grey1) !important;
+
+    border: none !important;
+
+    border-radius: 10px !important;
+
+    padding: 6px 8px !important;
+
+    margin: 2px 0;
+
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+
+    transition: transform 0.15s ease,
+                background 0.15s ease;
+}
+
+
+.fc .fc-daygrid-event:hover {
+
+    background: var(--color-Pink) !important;
+
+    transform: scale(1.02);
+}
+
+
+/* Calendar Header */
+
+.fc .fc-col-header-cell {
+
+    background: var(--color-Grey1);
+
+    border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+}
+
+
+.fc .fc-col-header-cell-cushion {
+
+    font-family: "Open Sans";
+
+    font-weight: 600;
+
+    font-size: 0.85rem;
+
+    color: var(--color-Licorice) !important;
+
+    text-decoration: none;
+
+    padding: 10px 0;
+}
+
+
+/* Buttons */
+
+.fc .fc-button {
+
+    background-color: var(--color-Grey2) !important;
+
+    border: none !important;
+
+    color: var(--color-Licorice) !important;
+
+    box-shadow: none !important;
+
+    border-radius: 8px !important;
+}
+
+
+.fc .fc-button:hover {
+
+    background-color: var(--color-Pink) !important;
+
+    color: var(--color-White) !important;
+}
+
+
+.fc .fc-button:active {
+
+    background-color: var(--color-Grey2) !important;
+
+    color: var(--color-White) !important;
+}
+
+
+/* Lesson Content */
+
+.lesson-content {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+    color: #222;
+
+    min-width: 0;
+}
+
+
+.fc .lesson-content a {
+
+    display: block;
+
+    max-width: 100%;
+
+    white-space: normal;
+
+    overflow-wrap: break-word;
+
+    word-break: break-word;
+
+    color: var(--color-Licorice) !important;
+
+    text-decoration: none !important;
+}
+
+
+.lesson-title {
+
+    font-weight: 700;
+
+    font-size: 1rem;
+
+    line-height: 1.2;
+}
+
+
+.lesson-meta {
+
+    font-size: 0.72rem;
+
+    color: var(--color-Grey3);
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+
+.lesson-meta span {
+
+    white-space: normal;
+
+    overflow-wrap: anywhere;
+
+    word-break: break-word;
+}
+
+
+/* Start Button */
+
+.lesson-start-btn {
+
+    margin-top: 6px;
+
+    padding: 4px 8px;
+
+    font-size: 0.75rem;
+
+    border-radius: 6px;
+
+    background: var(--color-Grey2);
+
+    color: var(--color-White);
+
+    text-decoration: none;
+
+    display: inline-block;
+
+    transition: background 0.2s ease,
+                transform 0.15s ease;
+}
+
+
+/* Blocked Days */
+
+.fc-daygrid-day.blocked-day .fc-daygrid-day-frame {
+
+    background: repeating-linear-gradient(
+        45deg,
+        #2a2a2a,
+        #2a2a2a 10px,
+        #1f1f1f 10px,
+        #1f1f1f 20px
+    ) !important;
+
+    opacity: 0.6;
+}
+
+
+.fc-daygrid-day.blocked-day {
+
+    pointer-events: none;
+}
+
+
+/* Today */
+
+.fc .fc-day-today .fc-daygrid-day-frame {
+
+    background-color: var(--color-Peach) !important;
+}

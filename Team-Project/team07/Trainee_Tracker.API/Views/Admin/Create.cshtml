@@ -1,0 +1,110 @@
+@*
+Patrick Plechinger
+*@
+@model Trainee_Tracker.Core.Entity.CreateUser
+@{
+    ViewData["Title"] = "Create";
+}
+
+<link rel="stylesheet" href="~/css/Admin/Create.css"/>
+
+
+<h1 class="page-title">CREATE USER</h1>
+
+<!-- DASHBOARD CONTAINER -->
+<div class="dashboard">
+
+    <!-- Left: Progress -->
+    <div class="progress-section">
+
+        <div class="kpi-container">
+            <form asp-action="CreateUser" class="login-form" method="post" data-testid="create-form">
+
+
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label class="form-label -required" for="Role">Role</label>
+                    <select class="form-control" id="role" asp-for="role">
+                        <option value="Admin">Admin</option>
+                        <option value="Mentor">Mentor</option>
+                        <option value="Trainee">Trainee</option>
+                    </select>
+                    <span asp-validation-for="role" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label -required" for="first_name_input">EMail</label>
+                    <input class="form-control" autocomplete="off" type="text" placeholder="name@example.com"
+                           data-testid="create-email-input" id="email_input" asp-for="EMail" />
+                    <span asp-validation-for="EMail" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label -required" for="first_name_input">First Name</label>
+                    <input class="form-control" autocomplete="off" type="text" placeholder="Max"
+                           data-testid="create-firstname-input" id="first_name_input" asp-for="firstName" />
+                    <span asp-validation-for="firstName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label -required" for="last_name_input">Last Name</label>
+                    <input class="form-control" autocomplete="off" type="text" placeholder="Mustermann"
+                           data-testid="create-lastname-input" id="last_name_input" asp-for="lastName" />
+                    <span asp-validation-for="lastName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group" id="StartDate">
+                    <label class="form-label -required" for="start_date_input">Start Date</label>
+                    <input class="form-control" autocomplete="off" type="date" placeholder="01.01.2026"
+                           data-testid="create-startdate-input" id="start_date_input" asp-for="startDate" />
+                    <span asp-validation-for="startDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group" id="EndDate">
+                    <label class="form-label -required" for="end_date_input">End Date</label>
+                    <input class="form-control" autocomplete="off" type="date" placeholder="31.12.2026"
+                           data-testid="create-enddate-input" id="end_date_input" asp-for="endDate" />
+                    <span asp-validation-for="endDate" class="text-danger"></span>
+                </div>
+
+                <button type="submit" data-testid="submit-login" class="btn-gradient">
+                    Create
+                </button>
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        function toggleFields() {
+            const role = document.getElementById('role').value;
+            const startDate = document.getElementById('StartDate');
+            const endDate = document.getElementById('EndDate');
+
+            startDate.style.display =
+                role === 'Trainee' ? 'block' : 'none';
+            endDate.style.display =
+                role === 'Trainee' ? 'block' : 'none';
+        }
+
+        document.getElementById('role')
+            .addEventListener('change', toggleFields);
+
+        // Run on page load (useful when editing existing data)
+        toggleFields();
+    </script>
+}

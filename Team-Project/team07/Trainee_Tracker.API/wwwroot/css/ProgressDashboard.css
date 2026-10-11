@@ -1,0 +1,94 @@
+/* Page-specific additions on top of the shared .progress-section in site.css */
+.progress-section {
+    font-family: "League Spartan";
+    text-align: center;
+    background: var(--color-White);
+    width: 100%;
+}
+/*Tim Glaser*/
+.kpi-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+/*Tim Glaser*/
+.kpi-card {
+    background: var(--color-Licorice);
+    border-radius: 8px;
+    position: relative;
+    padding: 12px;
+    text-align: center;
+
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.kpi-info
+{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 20px;
+    height: 20px;
+    border: 1px solid #666;
+    border-radius: 50%;
+
+    font-size: 13px;
+    font-weight: bold;
+    color: #666;
+    cursor: help;
+
+}
+
+.kpi-info-text
+{
+    position: absolute;
+    top: 28px;
+    right: 0;
+    z-index: 1000;
+
+    width: 220px;
+    padding: 10px;
+
+    background-color: #222;
+    color: white;
+    border-radius: 6px;
+
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 1.4;
+
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity 0.2s ease;
+}
+
+.kpi-info:hover .kpi-info-text
+{
+    visibility: visible;
+    opacity: 1;
+}
+/*Tim Glaser*/
+.kpi-title {
+    font-family: "League Spartan";
+    display: block;
+    font-size: 0.85rem;
+    color: var(--color-Pink);
+}
+/*Tim Glaser*/
+.kpi-value {
+    font-family: "League Spartan";
+    display: block;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-top: 5px;
+    color: var(--color-White);
+}

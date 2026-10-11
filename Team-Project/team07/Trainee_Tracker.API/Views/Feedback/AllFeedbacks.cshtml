@@ -1,0 +1,136 @@
+@using System.Collections.Generic;
+@using Microsoft.IdentityModel.Tokens
+@model List<Trainee_Tracker.Core.Entity.Feedback>
+
+@{
+    ViewData["Title"] = "Newest Feedbacks";
+    // Feedback ids the current user may edit/delete (role-dependent, computed
+    // in MentorController.LessonStats)
+    // Author: Carl Böhm-Sturm
+    var editableIds = ViewBag.EditableFeedbackIds as HashSet<Guid> ?? new HashSet<Guid>();
+}
+
+@Html.AntiForgeryToken()
+
+<div class="page">
+    <h1 class="page-title">FEEDBACKS</h1>
+    <div class="filter-container">
+
+        <div class="review-controls">
+            <label for="lesson-filter">Filter by Lesson</label>
+            @* Options are built client-side from the visible feedback cards *@
+            <select id="lesson-filter">
+                <option value="all">All Feedback</option>
+            </select>
+            <label for="show-old-feedbacks">
+                <input type="checkbox" id="show-old-feedbacks" />
+                Show older than 1 Week
+            </label>
+        </div>
+    </div>
+        <div class="feedbacks-container">
+        @{
+            var empty = "N/A";
+        }
+        @foreach (var feedback in Model.OrderBy(item => item.creationDate).Reverse())
+        {
+            <div class="feedback-container" id="@feedback.id" data-lesson="@feedback.associatedLesson?.title" data-old="@((DateTime.Now - feedback.creationDate).TotalDays >= 7 ? "true" : "false")">
+                <div class="difficulty">
+                    Difficulty: @(feedback.difficulty == null ? empty : @feedback.difficulty)
+                </div>
+                <div class="effort">
+                    Actual effort: @(feedback.actualEffort == null ? empty : @feedback.actualEffort+"d")
+                </div>
+                <div class="knowledge">
+                    Previous Knowledge: @(feedback.knowledge == null ? empty : @feedback.knowledge)
+                </div>
+                <div class="text">
+                    Feedback text: @(feedback.text == null ? empty : @feedback.text)
+
+                </div>
+                <div class="lesson">
+                    Lesson: @feedback.associatedLesson?.title
+                </div>
+                <div class="user">
+                    User: @feedback.associatedUser?.firstName @feedback.associatedUser?.lastName
+                </div>
+                <div>
+                    Submitted: @feedback.creationDate.ToString(System.Globalization.CultureInfo.CreateSpecificCulture("en-EN"))
+                </div>
+                @if (editableIds.Contains(feedback.id))
+                {
+                    <div class="custom-btn-group">
+                        <a class="custom-btn" href="/Feedback/Edit/@feedback.id">Edit</a>
+                        <button class="custom-btn delete-btn" data-feedback-id="@feedback.id">Delete</button>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const filterSelect = document.getElementById('lesson-filter');
+        const showOldCheckbox = document.getElementById('show-old-feedbacks');
+
+        // Cards that pass the age rule (recent, or old while "Show older than
+        // 1 Week" is checked). Queried fresh so deleted cards drop out.
+        function ageFilteredCards() {
+            return [...document.querySelectorAll('.feedback-container')]
+                .filter(card => showOldCheckbox.checked || card.dataset.old !== 'true');
+        }
+
+        // The dropdown only offers lessons that currently have at least one
+        // card passing the age rule
+        function updateLessonOptions() {
+            const selected = filterSelect.value;
+            const lessons = [...new Set(ageFilteredCards().map(card => card.dataset.lesson))];
+
+            filterSelect.innerHTML = '<option value="all">All Feedback</option>';
+            lessons.forEach(lesson => {
+                const option = document.createElement('option');
+                option.value = lesson;
+                option.textContent = lesson;
+                filterSelect.appendChild(option);
+            });
+            filterSelect.value = lessons.includes(selected) ? selected : 'all';
+        }
+
+        // Show a card only if it matches the lesson filter and the age rule
+        function applyFilters() {
+            const selectedLesson = filterSelect.value;
+            const visibleCards = ageFilteredCards();
+
+            document.querySelectorAll('.feedback-container').forEach(card => {
+                const lessonMatch = selectedLesson === 'all' || selectedLesson === card.dataset.lesson;
+                card.style.display = (lessonMatch && visibleCards.includes(card)) ? '' : 'none';
+            });
+        }
+
+        filterSelect.addEventListener('change', applyFilters);
+        showOldCheckbox.addEventListener('change', () => { updateLessonOptions(); applyFilters(); });
+        updateLessonOptions();
+        applyFilters();
+
+        // Delete a feedback via the API and remove its card from the page
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                if (!confirm('Delete this feedback?')) return;
+                const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                const response = await fetch(`/Feedback/Delete/${btn.dataset.feedbackId}`, {
+                    method: 'DELETE',
+                    headers: { 'X-CSRF-TOKEN': token }
+                });
+                if (response.ok) {
+                    btn.closest('.feedback-container').remove();
+                    updateLessonOptions();
+                    applyFilters();
+                } else if (response.status === 403) {
+                    alert('You are not allowed to delete this feedback.');
+                } else {
+                    alert('Could not delete feedback.');
+                }
+            });
+        });
+    });
+    </script>
+</div>

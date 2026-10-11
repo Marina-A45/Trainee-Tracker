@@ -1,0 +1,238 @@
+@*
+Patrick Plechinger
+*@
+@model IEnumerable<Trainee_Tracker.Core.Entity.User>
+@{
+    ViewData["Title"] = "Overview";
+}
+
+<link rel="stylesheet" href="~/css/Admin/Overview.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+<h1 class="page-title">OVERVIEW</h1>
+
+<!-- DASHBOARD CONTAINER -->
+<div class="dashboard">
+
+    <!-- Left: Progress -->
+    <div class="progress-section">
+
+        <div class="kpi-container">
+
+            <div class="role-overview-selection">
+
+                <select class="form-control" id="role">
+                    <option value="Trainee">Trainee</option>
+                    <option value="Mentor">Mentor</option>
+                    <option value="Admin">Admin</option>
+                </select>
+
+            </div>
+
+            <div class="overview-section" id="trainee-active">
+                <h3>Active Trainees</h3>
+
+                @foreach (var userOverview in Model.Where(x => x.role == Trainee_Tracker.Core.Enums.Role.Trainee &&
+                x.active))
+                {
+                    <div class="overview-row">
+                        <div class="info-bar">
+                            <span class="info-item">@userOverview.firstName</span>
+                            <span class="info-item">@userOverview.lastName</span>
+                        </div>
+
+                        <div class="action-buttons">
+                            @*Open the selected trainee's lesson progress as an administrator. *@
+                            <form action="/Trainee/LessonStatus" method="get">
+                                <input type="hidden"
+                                    name="traineeId"
+                                    value="@userOverview.guid" />
+                                <button class="icon-btn"
+                                        type="submit"
+                                        title="View lesson progress">
+                                    <i class="bi bi-kanban-fill"></i>
+                                </button>
+                            </form>
+                            <form asp-action="Edit" asp-route-id="@userOverview.guid" method="get">
+                                <button class="icon-btn edit-btn" type="submit">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                            </form>
+
+                            <form asp-action="Deactivate" asp-route-id="@userOverview.guid" method="post"
+                                  onsubmit="return confirm('Are you sure you want to deactivate @userOverview.firstName @userOverview.lastName?');">
+
+                                <button type="submit" class="icon-btn btn-danger delete-btn">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+
+            </div>
+            <div class="overview-section" id="trainee-inactive">
+                <h3>Inactive Trainees</h3>
+
+                @foreach (var userOverview in Model.Where(x => x.role == Trainee_Tracker.Core.Enums.Role.Trainee &&
+                !x.active))
+                {
+                    <div class="overview-row">
+                        <div class="info-bar">
+                            <span class="info-item">@userOverview.firstName</span>
+                            <span class="info-item">@userOverview.lastName</span>
+                        </div>
+
+                        <div class="action-buttons">
+                            <form asp-action="Edit" asp-route-id="@userOverview.guid" method="get">
+                                <button class="icon-btn edit-btn" type="submit">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                            </form>
+
+                            <form asp-action="Activate" asp-route-id="@userOverview.guid" method="post"
+                                  onsubmit="return confirm('Are you sure you want to activate @userOverview.firstName @userOverview.lastName?');">
+
+                                <button type="submit" class="icon-btn btn-danger delete-btn">
+                                    <i class="bi bi-plus-circle-fill"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+
+
+            <div class="overview-section" id="mentor-active">
+                <h3>Active Mentors</h3>
+
+                @foreach (var userOverview in Model.Where(x => x.role == Trainee_Tracker.Core.Enums.Role.Mentor &&
+                x.active))
+                {
+                    <div class="overview-row">
+                        <div class="info-bar">
+                            <span class="info-item">@userOverview.firstName</span>
+                            <span class="info-item">@userOverview.lastName</span>
+                        </div>
+
+                        <div class="action-buttons">
+                            <form asp-action="Edit" asp-route-id="@userOverview.guid" method="post">
+                                <button class="icon-btn edit-btn" type="submit">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                            </form>
+                            <form asp-action="Deactivate" asp-route-id="@userOverview.guid" method="post"
+                                  onsubmit="return confirm('Are you sure you want to deactivate @userOverview.firstName @userOverview.lastName?');">
+
+                                <button type="submit" class="icon-btn btn-danger delete-btn">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+
+            </div>
+            <div class="overview-section" id="mentor-inactive">
+                <h3>Inactive Mentors</h3>
+
+                @foreach (var userOverview in Model.Where(x => x.role == Trainee_Tracker.Core.Enums.Role.Mentor &&
+                !x.active))
+                {
+                    <div class="overview-row">
+                        <div class="info-bar">
+                            <span class="info-item">@userOverview.firstName</span>
+                            <span class="info-item">@userOverview.lastName</span>
+                        </div>
+
+                        <div class="action-buttons">
+                            <form asp-action="Edit" asp-route-id="@userOverview.guid" method="post">
+                                <button class="icon-btn edit-btn" type="submit">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                            </form>
+
+                            <form asp-action="Activate" asp-route-id="@userOverview.guid" method="post"
+                                  onsubmit="return confirm('Are you sure you want to activate @userOverview.firstName @userOverview.lastName?');">
+
+                                <button type="submit" class="icon-btn btn-danger delete-btn">
+                                    <i class="bi bi-plus-circle-fill"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+
+            </div>
+            <div class="overview-section" id="admin-active">
+                <h3>Active Admins</h3>
+
+                @foreach (var userOverview in Model.Where(x => x.role == Trainee_Tracker.Core.Enums.Role.Admin &&
+                x.active))
+                {
+                    <div class="overview-row">
+                        <div class="info-bar">
+                            <span class="info-item">@userOverview.firstName</span>
+                            <span class="info-item">@userOverview.lastName</span>
+                        </div>
+
+                        <div class="action-buttons">
+                            <form asp-action="Edit" asp-route-id="@userOverview.guid" method="post">
+                                <button class="icon-btn edit-btn" type="submit">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+<div id="modalContainer"></div>
+
+@section Scripts
+{
+    <script>
+
+        function toggleFields() {
+
+
+            const role = document.getElementById('role').value;
+            const Trainee1 = document.getElementById('trainee-active');
+            const Trainee2 = document.getElementById('trainee-inactive');
+            const Mentor1 = document.getElementById('mentor-active');
+            const Mentor2 = document.getElementById('mentor-inactive');
+            const Admin1 = document.getElementById('admin-active');
+            Trainee1.style.display =
+                role === 'Trainee' ? 'flex' : 'none';
+            Trainee2.style.display =
+                role === 'Trainee' ? 'flex' : 'none';
+
+            Mentor1.style.display =
+                role === 'Mentor' ? 'flex' : 'none';
+            Mentor2.style.display =
+                role === 'Mentor' ? 'flex' : 'none';
+
+            Admin1.style.display =
+                role === 'Admin' ? 'flex' : 'none';
+        }
+
+
+        document.getElementById('role')
+            .addEventListener('change', toggleFields);
+
+        toggleFields();
+
+        
+
+    </script>
+}

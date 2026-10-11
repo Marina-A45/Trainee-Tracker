@@ -1,0 +1,1 @@
+![Domänenmodell.png](uploads/69dc1dd69153e715ea5f1062a83f2301/Dom%C3%A4nenmodell.png){width=900 height=416}

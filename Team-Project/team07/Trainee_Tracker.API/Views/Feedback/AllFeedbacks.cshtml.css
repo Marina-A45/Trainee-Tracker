@@ -1,0 +1,62 @@
+.lessons-container {
+    margin-top: 5ch;
+    text-align: left;
+}
+
+.feedbacks-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+.feedback-container {
+    position: relative;
+    background-color: var(--color-Grey1);
+    margin: 2ch;
+    border-radius: 2ch;
+    width: fit-content;
+    padding: 2ch;
+    overflow-wrap: break-word;
+    word-break:break-all;    
+}
+.custom-btn-group {
+    position: absolute;
+    top: 1ch;
+    right: 2ch;
+
+}
+.review-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  background-color: var(--color-Grey1);
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+}
+
+button{
+    background-color: var(--color-White);
+    border: 1px solid var(--color-Grey2);
+}
+.review-controls label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-Licorice);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.review-controls select {
+  border: 1px solid var(--color-Grey2);
+  border-radius: 4px;
+  padding: 0.5rem;
+  color: var(--color-Licorice);
+  background-color: var(--color-White);
+  min-width: 200px;
+  outline: none;
+}
+
+.review-controls select:focus {
+  border-color: var(--color-Licorice);
+}

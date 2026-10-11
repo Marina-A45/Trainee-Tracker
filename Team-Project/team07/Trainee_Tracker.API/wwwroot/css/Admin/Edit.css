@@ -1,0 +1,10 @@
+/* Page-specific overrides on top of the shared dashboard theme in site.css */
+
+.kpi-container {
+    padding: 5% 33%;
+}
+
+.button-div {
+    display: flex;
+    gap: 10px;
+}

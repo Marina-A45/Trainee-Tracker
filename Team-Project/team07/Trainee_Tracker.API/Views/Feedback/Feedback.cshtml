@@ -1,0 +1,63 @@
+@model Trainee_Tracker.Core.Entity.Feedback
+@{
+    // Author: Carl Böhm-Sturm
+    // The form serves two modes: trainees create feedback, mentors/admins
+    // edit an existing one (FeedbackController.Edit sets IsEdit)
+    var isEdit = ViewBag.IsEdit == true;
+    ViewData["Title"] = isEdit ? "Edit Feedback" : "Give Feedback";
+}
+
+<h1 class="page-title">@(isEdit ? "EDIT FEEDBACK" : "GIVE FEEDBACK")</h1>
+<div class="white">
+
+    @if (isEdit)
+    {
+        <p>Lesson: @Model.associatedLesson?.title — Trainee: @Model.associatedUser?.firstName @Model.associatedUser?.lastName</p>
+    }
+    <div asp-validation-summary="All"></div>
+    <form class="mak-form form-container" asp-controller="Feedback" asp-action="@(isEdit ? "Update" : "Create")" method="post">
+        @if (isEdit)
+        {
+            <input type="hidden" name="id" value="@Model.id" />
+        }
+        else
+        {
+            <input type="hidden" name="associatedLesson.id" value="@ViewBag.lessonId" />
+            <input type="hidden" name="associatedUser.guid" value="@ViewBag.traineeId" />
+            <input type="hidden" name="progressId" value="@ViewBag.progressId" />
+        }
+
+        <label asp-for="difficulty">Difficulty: </label>
+        <div class="custom-button-group">
+            @for (int i = 1; i <= 5; i++)
+            {
+                <input type="radio" 
+                       asp-for="difficulty" 
+                       value="@i" 
+                       hidden
+                       class="hidden-radio"
+                       id="btn-diff-@i" />
+                <label class="difficulty-btn" for="btn-diff-@i">@i</label>
+            }
+        </div>
+        <span asp-validation-for="difficulty" class="text-danger"></span><br />
+    
+        @* In edit mode the field is prefilled from the model; the 2.5 default
+           only applies when creating new feedback *@
+        @if (isEdit)
+        {
+            <label>Actual Time effort in days:<input asp-for="actualEffort" type="text" inputmode="decimal" class="number-item" onkeypress="return /[0-9.]/.test(event.key)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')"/> d</label>
+        }
+        else
+        {
+            <label>Actual Time effort in days:<input asp-for="actualEffort" value="2.5" type="text" inputmode="decimal" class="number-item" onkeypress="return /[0-9.]/.test(event.key)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')"/> d</label>
+        }
+        <span  asp-validation-for="actualEffort" class="text-danger"></span><br />
+
+        <label >Knowledge:<textarea asp-for="knowledge" class="text-item"></textarea> </label>
+        <span  asp-validation-for="knowledge" class="text-danger"></span><br /> 
+        <label >Feedback Text:<textarea asp-for="text" class="text-item" ></textarea> </label>
+        <span  asp-validation-for="text" class="text-danger"></span><br /> 
+        <button  class="submit-button" type="submit">@(isEdit ? "Save" : "Submit")</button>
+    </form>
+</div>

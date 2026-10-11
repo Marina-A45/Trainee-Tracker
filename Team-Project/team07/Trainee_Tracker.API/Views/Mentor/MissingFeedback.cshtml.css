@@ -1,0 +1,118 @@
+.review-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  background-color: var(--color-Grey1);
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+}
+
+button{
+    background-color: var(--color-White);
+    border: 1px solid var(--color-Grey2);
+}
+.review-controls label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-Licorice);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.review-controls select {
+  border: 1px solid var(--color-Grey2);
+  border-radius: 4px;
+  padding: 0.5rem;
+  color: var(--color-Licorice);
+  background-color: var(--color-White);
+  min-width: 200px;
+  outline: none;
+}
+
+.review-controls select:focus {
+  border-color: var(--color-Licorice);
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.lesson-card.review-mode {
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-Grey1);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.lesson-card.review-mode:active {
+  cursor: default;
+}
+
+.trainee-badge {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-Grey3);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid transparent;
+  border-image: 1 var(--gradient-Pink-Peach);
+}
+
+.review-action {
+  margin-top: auto;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.reject-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.reject-form[hidden] {
+  display: none;
+}
+
+.reject-form textarea {
+  border: 1px solid var(--color-Grey2);
+  border-radius: 4px;
+  padding: 0.5rem;
+  color: var(--color-Licorice);
+  background-color: var(--color-White);
+  resize: vertical;
+  outline: none;
+}
+
+.reject-form textarea:focus {
+  border-color: var(--color-Licorice);
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--color-Grey3);
+  font-size: 1.1rem;
+  padding: 2rem 0;
+}
+
+.meta{
+background-color: var(--color-White);
+  border: 1px solid var(--color-Grey2);
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 2px 4px rgba(20, 18, 16, 0.04);
+}

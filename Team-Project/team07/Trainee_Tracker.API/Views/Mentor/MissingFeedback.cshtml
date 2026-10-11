@@ -1,0 +1,132 @@
+@using Trainee_Tracker.API.Models
+
+@model MentorLessonReviewViewModel
+
+@{
+  ViewData["Title"] = "Missing Feedbacks";
+
+  // Use only the role-specific review data prepared by the controller.
+  var trainees = Model.AvailableTrainees;
+  var pendingReviews = Model.PendingReviews;
+}
+
+<div class="page">
+
+  <h2 class="page-title">
+    @(Model.IsAdmin
+      ? "PENDING REVIEWS FOR ALL TRAINEES"
+      : "PENDING REVIEWS")
+  </h2>
+
+  <div class="page-row-spacer"></div>
+
+  @if (TempData["ReviewError"] is string reviewError)
+  {
+    <div class="page-row">
+      <div class="page-alert -danger" role="alert">@reviewError</div>
+    </div>
+  }
+
+  <div class="page-row">
+    <div class="review-controls">
+      <label for="trainee-filter">Filter by Trainee</label>
+      <select id="trainee-filter">
+        <option value="all">All Trainees</option>
+        @foreach (var trainee in trainees)
+        {
+          <option value="@trainee.guid">@trainee.firstName @trainee.lastName</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="page-row">
+    @if (!pendingReviews.Any())
+    {
+      <p class="empty-state">No lessons awaiting review.</p>
+    }
+    else
+    {
+      <div class="review-grid" id="review-grid">
+        @foreach (var review in pendingReviews)
+        {
+          var trainee = review.Trainee;
+          var progress = review.Progress;
+          <div class="lesson-card review-mode" data-trainee="@trainee.guid" id="@progress.id">
+            <div class="trainee-badge">@trainee.firstName @trainee.lastName</div>
+            <h4>@progress.title <div class="meta">Est: @(progress.timeEstimate)d</div></h4>
+            <p><a href="@progress.url" target="_blank" rel="noopener">go to lesson</a></p>
+            <div class="review-action">
+              <form method="post" asp-controller="Mentor" asp-action="ReviewLesson">
+                <input type="hidden" name="progressId" value="@progress.id" />
+                <input type="hidden" name="decision" value="accept" />
+                <button type="submit" class="btn-gradient w-100">Accept</button>
+              </form>
+              <button type="button" class="btn-flat-secondary w-100 reject-toggle">Reject</button>
+              <form method="post" asp-controller="Mentor" asp-action="ReviewLesson" class="reject-form" hidden>
+                <input type="hidden" name="progressId" value="@progress.id" />
+                <input type="hidden" name="decision" value="reject" />
+                <textarea name="rejectionReason" rows="3" required
+                          placeholder="Reason for rejection (required)"></textarea>
+                <button type="submit" class="btn-flat-secondary w-100">Confirm Rejection</button>
+              </form>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+      const storageKey = 'selected-trainee';
+      const filterSelect = document.getElementById('trainee-filter');
+      const reviewCards = document.querySelectorAll('.lesson-card.review-mode');
+
+      // Show only the cards of the selected trainee
+      const applyFilter = (selectedTrainee) => {
+          reviewCards.forEach(card => {
+              const cardTrainee = card.getAttribute('data-trainee');
+              card.style.display =
+                  (selectedTrainee === 'all' || selectedTrainee === cardTrainee) ? 'flex' : 'none';
+          });
+      };
+
+      // Restore the selected trainee across mentor screens and interactions.
+      const storedTraineeId = localStorage.getItem(storageKey);
+      const hasStoredTrainee = storedTraineeId
+          && [...filterSelect.options]
+              .some(option => option.value === storedTraineeId);
+
+      if (hasStoredTrainee) {
+          filterSelect.value = storedTraineeId;
+      }
+
+      applyFilter(filterSelect.value);
+
+      filterSelect.addEventListener('change', event => {
+          const selectedValue = event.target.value;
+
+          // "All Trainees" is only a temporary filter and must not replace
+          // the persisted selection of a specific trainee.
+          if (selectedValue !== 'all') {
+              localStorage.setItem(storageKey, selectedValue);
+          }
+
+          applyFilter(selectedValue);
+      });
+
+      // Reveal the rejection-reason form when "Reject" is clicked
+      document.querySelectorAll('.reject-toggle').forEach(button => {
+          button.addEventListener('click', () => {
+              const form = button.parentElement.querySelector('.reject-form');
+              form.hidden = !form.hidden;
+              if (!form.hidden) {
+                  form.querySelector('textarea').focus();
+              }
+          });
+      });
+  });
+</script>

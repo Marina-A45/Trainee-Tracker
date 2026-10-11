@@ -1,0 +1,105 @@
+﻿<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TraineeTracker</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/TraineeTracker.styles.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    @if (ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&
+    ViewContext.RouteData.Values["Action"]?.ToString() == "Index")
+    {
+        @RenderBody()
+    }
+
+    <header>
+        <div class="nav-container">
+            <nav id="navbar">
+                <a id="homepage-link" asp-controller="Home" asp-action="Index">
+                    <img id="navbar-logo" src="/logos/makandra_logo.svg" />
+                </a>
+
+                <div class="siteContainer">
+                    @if (ViewData["DropdownOptions"] is IEnumerable<SelectListItem> items)
+                    {
+                        @foreach (var item in items)
+                        {
+                            <a class="siteLinks" href="@item.Value">@item.Text</a>
+                        }
+                    }
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <a class="siteLinks" href="/Home/Logout">
+                            Logout
+                        </a>
+                    }
+                </div>
+
+
+                @* <div class="menu-toggle" id="menu-toggle">
+                    <span class="menu-label">MENU</span>
+
+                    <button class="burger" id="burger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div> *@
+
+            
+            </nav>
+            @* <div class="menu" id="menu">
+
+                @if (ViewData["DropdownOptions"] is IEnumerable<SelectListItem> dropdown)
+                {
+                    @foreach (var item in dropdown)
+                    {
+                        <a href="@item.Value">@item.Text</a>
+                    }
+                }
+                else
+                {
+                    <a></a>
+                }
+            </div> *@
+        </div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="footer">
+        <div>
+            &copy; 2026 - TraineeTracker
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        const burger = document.getElementById("burger");
+        @* const toggle = document.getElementById("menu-toggle"); *@
+        const navbar = document.getElementById("navbar");
+        const menu = document.getElementById("menu");
+
+        @* toggle.addEventListener("click", () => {
+            menu.classList.toggle("open");
+            burger.classList.toggle("active");
+            navbar.classList.toggle("open2")
+        }); *@
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

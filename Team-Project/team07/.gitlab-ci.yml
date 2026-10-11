@@ -1,0 +1,98 @@
+stages:
+  - trigger
+  - Build
+  - Unit-Tests
+  - E2E-Tests
+  - Deploy
+  - Portainer
+
+trigger_check:
+  stage: trigger
+  image: mcr.microsoft.com/dotnet/sdk:10.0
+  tags:
+    - sopro
+
+  script:
+    - |
+      curl --fail --request POST \
+        --form token=$DOWNSTREAM_TRIGGER_TOKEN \
+        --form ref=main \
+        --form "variables[STUDENT_REPO_PATH]=$CI_PROJECT_PATH" \
+        --form "variables[STUDENT_PROJECT_ID]=$CI_PROJECT_ID" \
+        --form "variables[MR_ID]=$CI_MERGE_REQUEST_IID" \
+        --form "variables[STUDENT_SOURCE_BRANCH]=$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME" \
+        "$CI_API_V4_URL/projects/$(echo lehre/sopro/2026-sose/sopro-2026-autokorrektur | sed 's/\//%2F/g')/trigger/pipeline"
+
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+build_job:
+  stage: Build
+  image: mcr.microsoft.com/dotnet/sdk:10.0
+  tags:
+    - sopro
+  script:
+    - cd Trainee_Tracker.API
+    - dotnet build
+
+unit_test_job:
+  stage: Unit-Tests
+  image: mcr.microsoft.com/dotnet/sdk:10.0
+  tags:
+    - sopro
+  script:
+    - cd Trainee_Tracker.UnitTests
+    - dotnet test
+
+e2e_test_job:
+  stage: E2E-Tests
+  image: mcr.microsoft.com/dotnet/sdk:10.0
+  tags:
+    - sopro
+  script:
+    - apt-get update -qq
+    - apt-get install -y --no-install-recommends wget gnupg ca-certificates
+    - wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    - apt-get install -y --no-install-recommends ./google-chrome-stable_current_amd64.deb
+    - rm google-chrome-stable_current_amd64.deb
+    - google-chrome --version
+
+    - cd Trainee_Tracker.E2ETests
+    - dotnet test
+
+deploy_job:
+  stage: Deploy
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  tags:
+    - sopro
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor
+      --context "$CI_PROJECT_DIR"
+      --dockerfile "$CI_PROJECT_DIR/Dockerfile"
+      --destination "$CI_REGISTRY_IMAGE:latest"
+
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+
+portainer_job:
+  stage: Portainer
+  image: curlimages/curl:latest
+  tags:
+    - sopro
+
+  needs:
+    - deploy_job
+
+  variables:
+    CONTAINER_WEB_HOOK: "https://portainer.isse.de/api/webhooks/c65adc05-55ab-4fe6-aa3b-452d009caa3c"
+
+  script:
+    - sleep 10
+    - curl -X POST "$CONTAINER_WEB_HOOK"
+
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'

@@ -1,0 +1,40 @@
+/* Page-specific rules on top of the shared dashboard theme in site.css.
+   TraineeProgress stacks KPIs+chart above the lesson board, so it overrides
+   .dashboard to a column layout instead of the shared side-by-side row. */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  height: fit-content;
+}
+
+.TraineeLessonProgress {
+  font-family: "League Spartan";
+  flex: 1;
+  min-width: 0;
+  background: var(--color-White);
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+#skip-container {
+  display: none; /* Hidden by default */
+}
+
+#skip-container.is-visible {
+  display: block; /* Or flex, depending on your layout */
+  background-color: var(--color-Licorice);
+  width: 100%;
+  height: 50px;
+  text-align: center;
+  border-radius: 10px;
+  color: var(--color-White);
+  display: flex;
+  align-items:center ;
+  justify-content: center;
+}

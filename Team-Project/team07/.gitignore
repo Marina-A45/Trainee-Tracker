@@ -1,0 +1,12 @@
+.vs/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+.gitlab-ci-local/
+Trainee_Tracker.API/persistence/
+*.db
+Trainee_Tracker.Service/DateTimeTrackingApiClient.cs
+Trainee_Tracker.Service/PlannerService.cs
+Trainee_Tracker.Service/TraineeService.cs
+Trainee_Tracker.API/Views/Trainee/Overview.cshtml

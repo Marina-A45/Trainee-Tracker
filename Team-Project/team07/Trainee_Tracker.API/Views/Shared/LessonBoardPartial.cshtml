@@ -1,0 +1,111 @@
+@using Trainee_Tracker.Core.Entity
+@using Trainee_Tracker.Core.Enums
+@model IEnumerable<LessonProgress>
+@* <summary>
+Shows a unified display of the lessonProgress of a trainee for the Mentor and for the trainee
+Author: Lukas Nowak
+</summary> *@
+@{
+  bool isTrainee = ViewData["isTrainee"] is bool b && b;
+}
+<div class="columns">
+
+  @* 1. Skipped Status Column *@
+  <div class="columns--column" data-status="skipped">
+    <div class="column-title">Skipped</div>
+    @foreach (var progress in Model.Where(p => p.status == LessonStatus.Skipped).OrderBy(p => p.position))
+    {
+      <div data-position="@progress.position" class="lesson-card is-skipped" draggable="true" id="@progress.id">
+        <h4>@progress.title</h4>
+        <div class="meta">Est: @(progress.timeEstimate)d</div>
+        <p onclick="window.location.href = '@progress.url'">go to lesson</p>
+      </div>
+    }
+  </div>
+  @* 2. Open Status Column *@
+  <div class="columns--column" data-status="open">
+    <div class="column-title">Open</div>
+    @foreach (var progress in Model.Where(p => p.status == LessonStatus.Open).OrderBy(p => p.position))
+    {
+      <div data-position="@progress.position" class="lesson-card" draggable="true" id="@progress.id">
+        <h4>@progress.title</h4>
+        <div class="meta">Est: @(progress.timeEstimate)d</div>
+        <p onclick="window.location.href = '@progress.url'">go to lesson</p>
+      </div>
+    }
+  </div>
+
+  @* 3. Started Status Column *@
+  <div class="columns--column" data-status="started">
+    <div class="column-title">Started</div>
+    @foreach (var progress in Model.Where(p => p.status == LessonStatus.Started).OrderBy(p => p.position))
+    {
+      <div data-position="@progress.position" class="lesson-card" draggable="true" id="@progress.id">
+        <h4>@progress.title</h4>
+        <div class="meta">Est: @(progress.timeEstimate)d</div>
+        <p onclick="window.location.href = '@progress.url'">go to lesson</p>
+      </div>
+    }
+  </div>
+
+  @* 4. Finished Status Column *@
+  <div class="columns--column" data-status="finished">
+    <div class="column-title">Finished</div>
+    @foreach (var progress in Model.Where(p => p.status == LessonStatus.Finished).OrderBy(p => p.position))
+    {
+      <div data-position="@progress.position" class="lesson-card" draggable="true" id="@progress.id">
+        <h4>@progress.title</h4>
+        <div class="meta">Est: @(progress.timeEstimate)d</div>
+        <p onclick="window.location.href = '@progress.url'">go to lesson</p>
+      </div>
+    }
+  </div>
+
+  @* 5. Rejected Status Column *@
+  <div class="columns--column" data-status="rejected">
+    <div class="column-title">Rejected</div>
+    @foreach (var progress in Model.Where(p => p.status == LessonStatus.Rejected).OrderBy(p => p.position))
+    {
+      <div data-position="@progress.position" class="lesson-card is-rejected" draggable="true" id="@progress.id">
+        <h4>@progress.title</h4>
+        <div class="meta">Est: @(progress.timeEstimate)d</div>
+        <p onclick="window.location.href = '@progress.url'">go to lesson</p>
+        @if (!string.IsNullOrWhiteSpace(progress.rejectionReason))
+        {
+          <p class="rejection-reason">Rejected: @progress.rejectionReason</p>
+        }
+      </div>
+    }
+  </div>
+
+  @* 6. Accepted Status Column *@
+  <div class="columns--column" data-status="accepted">
+    <div class="column-title">Accepted</div>
+    @foreach (var progress in Model.Where(p => p.status == LessonStatus.Accepted).OrderBy(p => p.position))
+    {
+      <div data-position="@progress.position" class="lesson-card" draggable="true" id="@progress.id">
+        <h4>@progress.title</h4>
+        <div class="meta">Est: @(progress.timeEstimate)d</div>
+        <p onclick="window.location.href = '@progress.url'">go to lesson</p>
+        @if (isTrainee)
+        {
+          <a class="feedback-btn custom-btn" style="margin-top: 0.5rem;"
+             href="/Trainee/Feedback?lessonId=@progress.lessonId&progressId=@progress.id">Give Feedback</a>
+        }
+      </div>
+    }
+  </div>
+
+  @* 7. Rated Status Column *@
+  <div class="columns--column" data-status="rated">
+    <div class="column-title">Rated</div>
+    @foreach (var progress in Model.Where(p => p.status == LessonStatus.Rated).OrderBy(p => p.position))
+    {
+      <div data-position="@progress.position" class="lesson-card is-skipped no-hand" draggable="false" id="@progress.id">
+        <h4>@progress.title</h4>
+        <div class="meta">Est: @(progress.timeEstimate)d</div>
+        <p onclick="window.location.href = '@progress.url'">go to lesson</p>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,51 @@
+/* Flexbox group that arranges the buttons next to each other */
+.custom-button-group {
+    display: flex;
+    width: 100%;
+    gap: 6px; /* Spacing between the individual number buttons */
+    padding: 12px;
+    margin: 8px 0;
+}
+.white {
+    background-color: white;
+    padding: 2ch;
+    border-radius: 2ch;
+}
+.difficulty-btn {
+    flex: 1;
+    background-color: var(--color-Licorice);
+    color: var(--color-White);
+    text-align: center;
+    padding: 16px 0;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    border-radius: 6px;
+    user-select: none;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.difficulty-btn:hover {
+    background-color: var(--color-Grey2);
+}
+
+.hidden-radio:checked + .difficulty-btn {
+    background-color: var(--color-Grey2);
+    box-shadow: inset 0 0 0 2px #555;
+}
+.form-container{
+    background-color: var(--color-Grey1);
+}
+.text-item{
+    background-color: var(--color-Grey2);
+    border: 10px solid black;
+}
+.text-center{
+    padding: 20px;
+    border: 1px solid var(--color-White);
+    background-color: var(--color-Grey1);
+    border-radius: 20px;
+    color: var(--color-Licorice);
+}

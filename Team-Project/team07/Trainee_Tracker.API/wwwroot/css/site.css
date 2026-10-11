@@ -1,0 +1,417 @@
+:root{
+  --border-radius: 4px;    /* Slightly rounded (see header bar) */
+  --color-White: #FFFFFF;
+  --color-Grey1: #DBDBDB;
+  --color-Grey2: #AFAFAF;
+  --color-Grey3: #626262;
+  --color-Licorice: #141210;
+  --color-Pink: #FF0844;
+  --color-Peach: #FFB199;
+  --gradient-Pink-Peach: linear-gradient(90deg, #FF0844 0%, #FFB199 100%);
+  --color-Panel: #F5F5F5;
+}
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  background-color: var(--color-Licorice);
+}
+.headline {
+  background-image: var(--gradient-Pink-Peach);
+  color: transparent;
+  background-clip: text;
+}
+/*
+  Css for custom makandra style form
+*/
+.mak-form form {
+  padding: 20px;
+}
+.mak-form label {
+  display: block;
+}
+.mak-form .text-item {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: var(--color-Grey2);
+    border: 2px solid transparent; 
+    border-radius: var(--border-radius);
+    color: var(--color-Licorice);
+    font-size: 1rem;
+    transition: all 0.2s ease-in-out;
+    height: fit-content;
+    resize: none;
+    height: 20ch;
+}
+.mak-form .text-item:focus,
+.mak-form .number-item:focus {
+    outline: none;
+    border-color: var(--color-Licorice);
+    background-color: #f5f5f5;
+}
+.mak-form .number-item {
+  margin-left: 10px;
+  width: 4ch;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: var(--color-Grey1);
+}
+.mak-form button {
+    width: 100%;
+    background-color: var(--color-Licorice);
+    color: var(--color-White);
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.2s ease;
+    margin-top: 10px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+.page-title {
+    font-family: "League Spartan";
+    font-size: 3rem;
+    font-weight: 800;
+
+    margin-bottom: 2rem;
+
+    /* Gradient Text */
+    background: var(--gradient-Pink-Peach);
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    display: inline-block;
+    position: relative;
+}
+
+/* underline effect */
+.page-title::after {
+    content: "";
+    position: absolute;
+
+    left: 0;
+    bottom: -8px;
+
+    width: 40%;
+    height: 4px;
+
+    background: var(--gradient-Pink-Peach);
+    border-radius: 2px;
+}
+/* DASHBOARD LAYOUT */
+
+.dashboard {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: stretch;
+
+    min-height: 100vh;
+    height: auto;
+
+    padding: 20px;
+
+    background: var(--color-Licorice);
+}
+
+@media (max-width: 768px) {
+    .dashboard {
+        flex-direction: column;
+    }
+}
+
+/* PROGRESS SECTION (left column of the dashboard layout) */
+.progress-section {
+    flex: 1;
+    background: var(--color-Panel);
+
+    padding: 15px;
+    border-radius: 10px;
+}
+
+/* KPI GRID. Single-form pages (Login/Create/Edit/SetPassword) add their own
+   narrow padding on top of this; wide-grid pages (Admin/Overview, TraineeProgress,
+   Trainee/Overview) override display/gap themselves and stay full-width. */
+.kpi-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+    height: auto;
+    min-height: fit-content;
+
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* SHARED FORM CONTROLS */
+.login-form {
+    width: 100%;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.form-group {
+    align-items: center;
+}
+
+.form-control {
+    --border-color: black;
+    --border-width: 2px;
+    --padding: 2px;
+    appearance: none;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    border-bottom: var(--border-width) solid var(--border-color);
+    width: 100%;
+    padding: var(--padding);
+    padding-bottom: calc(var(--padding) - var(--border-width));
+    transition: .07s ease-out;
+    transition-property: border-color;
+}
+.form-control:focus,
+.form-control[aria-expanded=true] {
+    outline: none;
+    box-shadow: none;
+    background-color: transparent;
+    --border-color-focus: var(--color-Pink);
+    --border-width: 2px;
+    border-bottom: var(--border-width) solid var(--border-color-focus);
+}
+.form-control:focus::placeholder,
+.form-control[aria-expanded=true]::placeholder {
+    opacity: 0;
+}
+.form-control:placeholder-shown {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+button.form-control,
+select.form-control {
+    cursor: pointer;
+    text-overflow: ellipsis;
+    text-align: start;
+    padding-right: calc(14px + var(--space-2) * 2);
+}
+
+.form-label {
+    cursor: pointer;
+}
+@supports (selector(:has(*))) {
+    .form-label:not(:has(input[type=checkbox]),
+    :has(input[type=radio])) {
+        font-size: var(--label-2-font-size);
+        line-height: var(--label-2-line-height);
+        letter-spacing: var(--label-2-letter-spacing, 0);
+        --current-line-height: var(--label-2-line-height);
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+}
+@supports not (selector(:has(*))) {
+    .form-label:not(.-has-input-type-checkbox,
+    .-has-input-type-radio) {
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+}
+@supports (selector(:has(*))) {
+    .form-label:has(input[type=checkbox]),
+    .form-label:has(input[type=radio]) {
+        display: inline-block;
+        margin-bottom: var(--space-2);
+        padding-left: calc(22px + var(--space-3));
+        position: relative;
+    }
+    .form-label:has(input[type=checkbox]) input,
+    .form-label:has(input[type=radio]) input {
+        position: absolute;
+        left: 0;
+    }
+}
+@supports not (selector(:has(*))) {
+    .form-label.-has-input-type-checkbox,
+    .form-label.-has-input-type-radio {
+        display: inline-block;
+        margin-bottom: var(--space-2);
+        padding-left: calc(22px + var(--space-3));
+        position: relative;
+    }
+    .form-label.-has-input-type-checkbox input,
+    .form-label.-has-input-type-radio input {
+        position: absolute;
+        left: 0;
+    }
+}
+.form-label a:not(.btn) {
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+    transition: .07s ease-out;
+    transition-property: color, text-decoration-color, outline;
+    font-weight: 700;
+    color: var(--color-text-link);
+}
+.form-label a:not(.btn):focus,
+.form-label a:not(.btn):hover {
+    color: var(--color-text-link-hover);
+}
+.form-label a:not(.btn):focus-visible {
+    color: var(--color-text-link);
+    text-decoration-color: transparent;
+    outline: none;
+    outline-offset: 0;
+    border-radius: 100vmax;
+}
+.form-label[disabled] {
+    cursor: not-allowed;
+    color: var(--color-input-disabled);
+}
+.form-label.-required:after {
+    content: "*";
+}
+.form-group.-error .form-label,
+.form-group.-error .form-label a {
+    color: var(--color-input-error);
+}
+
+textarea {
+    resize: none;
+}
+
+/* SHARED ALERT BANNERS */
+.page-alert {
+    width: 100%;
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+}
+.page-alert.-success {
+    border: 1px solid #2f6f4f;
+    background-color: #d7f0e3;
+    color: #1c4a34;
+}
+.page-alert.-danger {
+    border: 1px solid #b02a37;
+    background-color: #f8d7da;
+    color: #58151c;
+}
+
+/* SHARED BUTTONS */
+.btn-gradient {
+    background: var(--gradient-Pink-Peach);
+    color: var(--color-Licorice);
+
+    border: none;
+    border-radius: 10px;
+
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.btn-gradient:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+.btn-gradient:active {
+    transform: translateY(0);
+}
+
+.btn-flat-secondary {
+    background: var(--color-Grey2);
+    color: var(--color-Licorice);
+
+    border: none;
+    border-radius: 10px;
+
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.btn-flat-secondary:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+.btn-flat-secondary:active {
+    transform: translateY(0);
+}
+
+/* Small inline action button/link (Edit/Delete/See-Feedback/Give-Feedback),
+   used across Feedback, Trainee/LessonStatus and JS-created board buttons.
+   Styled so <a> and <button> elements look identical. */
+.custom-btn {
+    display: inline-block;
+    background-image: var(--gradient-Pink-Peach);
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.75rem;
+    font: inherit;
+    font-size: 0.9rem;
+    color: var(--color-Licorice);
+    text-decoration: none;
+    cursor: pointer;
+}
+.custom-btn:hover {
+    opacity: 0.85;
+}
+
+/* Push modal below the floating pill navbar so it doesn't get covered */
+.modal-dialog {
+    margin-top: 110px;
+}

@@ -1,0 +1,205 @@
+﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+#navbar {
+  width: 100%;
+  margin-top: 16px;
+  display: flex;
+  border-radius: 40px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #dbdbdb90;
+  backdrop-filter: blur(6px);
+}
+body {
+  padding-top: 120px;
+}
+#navbar #homepage-link,
+#navbar-button {
+  width: 100%;
+  max-width: 120px;
+  margin: 25px;
+}
+
+#navbar #navbar-logo {
+  margin: 25px;
+}
+
+#navbar img {
+  display: flex;
+  width: auto;
+  height: 30px;
+}
+
+#navbar #navbar-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  margin-left: auto;
+  background: transparent;
+  gap: 10px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+  color: white;
+  text-align: center;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  border-top: 1px solid transparent;
+  border-image: 1 var(--gradient-Pink-Peach);
+}
+
+.footer a {
+  color: var(--color-Peach);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footer a:hover {
+  color: var(--color-Pink);
+  text-decoration: underline;
+}
+
+.burger {
+  width: 32px;
+  height: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  position: relative;
+}
+
+/* Lines */
+.burger span {
+  display: block;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--color-Licorice);
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* Active → X state */
+.burger.active span:nth-child(1) {
+  transform: translateY(10px) rotate(45deg);
+}
+
+.burger.active span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.burger.active span:nth-child(3) {
+  transform: translateY(-10px) rotate(-45deg);
+}
+
+/* Dropdown Menu */
+.menu {
+  background-color: #dbdbdb90;
+  backdrop-filter: blur(6px);
+
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0px 0px 32px 32px;
+
+  overflow: hidden;
+
+  max-height: 0;
+  opacity: 0;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.3s ease;
+}
+#menu-toggle:hover {
+  cursor: pointer;
+}
+/* Open State */
+.menu.open {
+  max-height: 300px;
+  opacity: 1;
+}
+
+.open2 {
+  border-radius: 32px 32px 0px 0px !important;
+}
+
+.menu a {
+  display: block;
+  padding: 16px 24px;
+  color: var(--color-Licorice);
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.menu a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  text-decoration: underline;
+}
+.menu-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 32px;
+}
+
+.menu-label {
+  color: var(--color-Licorice);
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.9;
+  cursor: pointer;
+  user-select: none;
+}
+
+.nav-container {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 95%;
+  z-index: 9999;
+}
+
+.container {
+  margin: 0px;
+  margin-top: 120px;
+  width: 100%;
+  max-width: 9999px;
+}
+
+.siteLinks {
+  text-decoration: none;
+  color: var(--color-Licorice);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.siteContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.siteLinks:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+.siteContainer a {
+  font-size: 2ch;
+  font-family: "League Spartan";
+  margin-top: 1%;
+}

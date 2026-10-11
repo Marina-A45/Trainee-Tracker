@@ -1,0 +1,245 @@
+@using Trainee_Tracker.API.Models
+@using Trainee_Tracker.Core.Enums
+@using Trainee_Tracker.Core.Entity
+
+
+@model MentorTraineeProgressViewModel
+
+@{
+  ViewData["Title"] = "TraineeProgress";
+
+  // Use only the role-specific data prepared and authorized by the controller.
+  var trainees = Model.AvailableTrainees;
+  var selectedTrainee = Model.SelectedTrainee;
+  var progresses = Model.Progresses;
+  var traineeProgress = Model.TraineeProgress;
+
+  var weightedProgress = traineeProgress?.WeightedProgressEstimate ?? 0;
+  var openWork = traineeProgress?.OpenWork ?? 0;
+  var totalWork = weightedProgress + openWork;
+
+  string FormatWorkdays(decimal? value) => value == null ? "-" : $"{Math.Round(value.Value, 1)} workdays";
+  string FormatPercent(decimal? value) => value == null ? "-" : $"{Math.Round(value.Value, 0)}%";
+  string FormatWorkload() => traineeProgress == null
+    ? "-"
+    : $"{Math.Round(weightedProgress, 1)}/{Math.Round(totalWork, 1)} done";
+}
+
+<!-- Chart.js for burndown chart rendering -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Page-specific styles -->
+<link rel="stylesheet" href="~/css/ProgressDashboard.css" />
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
+
+<script src="~/js/burndownChart.js"></script>
+
+<h1 class="page-title">
+  @(Model.IsAdmin ? "ADMIN TRAINEE PROGRESS" : "TRAINEE PROGRESS")
+</h1>
+
+<div class="page-row1">
+  <div class="review-controls">
+    <label for="trainee-filter">Select Trainee</label>
+    <select id="trainee-filter">
+      @if (!trainees.Any())
+      {
+        <option value="">No trainees assigned</option>
+      }
+      else
+      {
+        @foreach (var trainee in trainees)
+        {
+          <option value="@trainee.guid" selected="@(trainee.guid == selectedTrainee?.guid)">
+            @trainee.firstName @trainee.lastName
+          </option>
+        }
+      }
+    </select>
+  </div>
+</div>
+
+<!-- Main dashboard layout: left = KPIs + chart, right = lesson overview -->
+<div class="dashboard">
+
+  <!-- Left: KPIs + burndown chart -->
+  <div class="progress-section">
+    <h3>Progress</h3>
+
+    <!-- KPI cards: key metrics for the mentor at a glance -->
+    <div class="kpi-container">
+      <div class="kpi-card">
+        <span class="kpi-info">
+                    i
+                    <span class="kpi-info-text">Estimated completed work minus recorded attendance. Negative values indicate slow pace.
+                </span>
+              </span>
+        <span class="kpi-title">Buffer</span>
+        <span class="kpi-value" data-kpi="buffer">@FormatWorkdays(traineeProgress?.Buffer)</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-info">
+                    i
+                    <span class="kpi-info-text">Projected buffer after completing the remaining work at the current pace. Negative values indicate likely delay.
+                    </span>
+                    </span>
+                </span>
+        <span class="kpi-title">Estimated Buffer</span>
+        <span class="kpi-value" data-kpi="estimatedBuffer">@FormatWorkdays(traineeProgress?.EstimatedBuffer)</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-info">
+                    i
+                    <span class="kpi-info-text">Completed estimated work compared to recorded attendance. Over 100% means faster than estimated pace.
+                    </span>
+                    </span>
+                </span>
+        <span class="kpi-title">WorkSpeed</span>
+        <span class="kpi-value" data-kpi="workSpeed">@FormatPercent(traineeProgress?.WorkSpeed)</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-info">
+                    i
+                    <span class="kpi-info-text">Estimated completed workdays compared to total estimated curriculum workdays.
+                    </span>
+                </span>
+        <span class="kpi-title">Workload</span>
+        <span class="kpi-value" data-kpi="workload">@FormatWorkload()</span>
+      </div>
+    </div>
+
+    <!-- Burndown chart: compares ideal linear progress against real trainee progress.
+             TODO: replace hardcoded data with real values from ProgressAnalyticsService. -->
+    <div style="width: 100%; max-width: 600px; height: 300px; margin: auto;">
+      <canvas id="burndownChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Right: lesson status overview - read-only kanban showing current state of trainee lessons.
+         TODO: replace dummy data with real LessonProgress from repository. -->
+  <div class="TraineeLessonProgress">
+    <h3>Lesson Overview</h3>
+    <p class="lesson-order-hint">
+      Drag open lessons up or down to customize the order for this trainee.
+    </p>
+    <p id="lesson-order-status"
+       class="lesson-order-status"
+       role="status"></p>
+    <div class="page-row" style="width: 100%;">
+    <div id="board-container" style="width: 100%;">
+        <partial name="LessonBoardPartial" model="progresses" />
+      </div>
+      <div id="skip-container" data-status="skipped" class="skip-zone"> SKIP</div>
+    </div>
+
+  </div>
+
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const storageKey = 'selected-trainee';
+    const traineeSelect = document.getElementById('trainee-filter');
+
+    if (!traineeSelect || !traineeSelect.value) {
+      return;
+    }
+    // Checks whether the trainee is available in the current selection.
+    // Author: Dennis Axt.
+    const hasOption = traineeId =>
+      [...traineeSelect.options]
+        .some(option => option.value === traineeId);
+
+    const storedTraineeId = localStorage.getItem(storageKey);
+
+    // Restore a previously selected trainee who is still available to the user.
+    if (storedTraineeId
+        && hasOption(storedTraineeId)
+        && storedTraineeId !== traineeSelect.value) {
+      window.location.replace(
+        '/Mentor/TraineeProgress?traineeId='
+        + encodeURIComponent(storedTraineeId));
+
+      return;
+    }
+
+    localStorage.setItem(storageKey, traineeSelect.value);
+
+    // Reload the complete page so all drag-and-drop handlers are initialized.
+    traineeSelect.addEventListener('change', event => {
+      const traineeId = event.target.value;
+
+      localStorage.setItem(storageKey, traineeId);
+
+      window.location.href =
+        '/Mentor/TraineeProgress?traineeId='
+        + encodeURIComponent(traineeId);
+    });
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr@@6.0.1/dist/browser/signalr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+  let currentConnectionId = "LS";
+
+  const connection = new signalR.HubConnectionBuilder()
+  .withUrl("/curriculumHub")
+  .withAutomaticReconnect()
+  .build();
+
+  connection.start()
+  .then(() => {
+  currentConnectionId = connection.connectionId;
+  window.currentConnectionId = currentConnectionId;
+  console.log("Connected seamlessly. Connection ID:", currentConnectionId);
+  })
+  .catch(err => console.error("SignalR Connection Error: ", err));
+
+  connection.on("RefreshCurriculumData", (curriculumId) => {
+  window.location.reload();
+  });
+</script>
+<!-- Chart section created by Tim Glaser -->
+<script>
+document.addEventListener('DOMContentLoaded', async function () {
+  const traineeId = "@selectedTrainee?.guid";
+
+  if (!traineeId) {
+    console.error("No trainee selected for burndown chart.");
+    return;
+  }
+
+  try {
+    const chartResponse = await fetch(`/api/trainee/burndown-chart/${traineeId}`);
+
+    if (!chartResponse.ok) {
+      console.error("Burndown API request failed:", chartResponse.status);
+      return;
+    }
+
+    const chartData = await chartResponse.json();
+    createBurndownChart("burndownChart", chartData);
+  }
+  catch (error) {
+    console.error("Burndown chart loading failed:", error);
+  }
+});
+</script>
+
+<script>
+  window.LessonStatus = Object.freeze({
+  @foreach (var status in Enum.GetValues(typeof(Trainee_Tracker.Core.Enums.LessonStatus)))
+  {
+    @:@status.ToString(): @((int)status),
+  }
+  });
+  window.AllowedTransitions = Object.freeze({
+  'skipped': ['open'],
+  'open': ['started', 'skipped'],
+  'started': ['open', 'finished'],
+  'finished': ['started', 'accepted'],
+  'rejected': ['finished'],
+  'accepted': ['finished', 'rated'],
+  'rated': []
+  });
+</script>
+<script src="~/js/lesson-drag-drop.js" defer></script>
+<script src="~/js/mentor-lesson-order.js" defer></script>

@@ -1,0 +1,102 @@
+@*
+Patrick Plechinger
+*@
+@model Trainee_Tracker.Core.Entity.EditUser
+@using Trainee_Tracker.Core.Enums
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<link rel="stylesheet" href="~/css/Admin/Edit.css" />
+
+
+<h1 class="page-title">EDIT USER</h1>
+
+<!-- DASHBOARD CONTAINER -->
+<div class="dashboard">
+
+    <!-- Left: Progress -->
+    <div class="progress-section">
+
+        <div class="kpi-container">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <form asp-action="EditUser" class="login-form" method="post" data-testid="create-form">
+                <input asp-for="guid" type="hidden" />
+                <input asp-for="role" type="hidden" />
+
+                <div class="form-group">
+                    <label class="form-label -required" for="first_name_input">EMail</label>
+                    <input class="form-control" autocomplete="off" type="text" "
+                           data-testid=" edit-email-input" id="first_name_input" asp-for="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label -required" for="first_name_input">First Name</label>
+                    <input class="form-control" autocomplete="off" type="text" "
+                           data-testid=" edit-firstname-input" id="first_name_input" asp-for="firstName" />
+                    <span asp-validation-for="firstName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label -required" for="last_name_input">Last Name</label>
+                    <input class="form-control" autocomplete="off" type="text" data-testid="edit-lastname-input"
+                           id="last_name_input" asp-for="lastName" />
+                    <span asp-validation-for="lastName" class="text-danger"></span>
+                </div>
+
+                @if (Model.role == Role.Trainee)
+                {
+                    <div class="form-group" id="StartDate">
+                        <label class="form-label -required" for="start_date_input">Start Date</label>
+                        <input class="form-control" autocomplete="off" type="date" data-testid="edit-startdate-input"
+                               id="start_date_input" asp-for="startDate" />
+                        <span asp-validation-for="startDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group" id="EndDate">
+                        <label class="form-label -required" for="end_date_input">End Date</label>
+                        <input class="form-control" autocomplete="off" type="date" data-testid="edit-enddate-input"
+                               id="end_date_input" asp-for="endDate" />
+                        <span asp-validation-for="endDate" class="text-danger"></span>
+                    </div>
+
+                }
+
+                <div class="button-div">
+                    <button type="submit" data-testid="submit-edit" class="btn-gradient flex-fill">
+                        Update
+                    </button>
+                    <button asp-controller="Admin" asp-action="Overview" class="btn-flat-secondary flex-fill"
+                            data-testid="cancle">Cancel</button>
+                </div>
+
+                @if (Model.role != Role.Admin)
+                {
+                <div class="button-div">
+                    <button asp-controller="Admin" asp-action="removePassword" value="@Model"
+                            class="btn-flat-secondary flex-fill" data-testid="rm_password">Remove Password</button>
+                </div>
+                }
+            </form>
+
+            <div class="form-group">
+                <label class="form-label -required" for="set_password_link">Set Password Link</label>
+                <h1 class="form-control" id="set_password_link">@Url.Action("SetPassword", "Home")/@Model.guid</h1>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

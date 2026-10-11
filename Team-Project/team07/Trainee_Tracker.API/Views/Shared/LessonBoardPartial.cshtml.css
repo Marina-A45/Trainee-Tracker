@@ -1,0 +1,247 @@
+.headline h2 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.page-row-spacer {
+  height: 2rem;
+}
+
+.columns {
+  background-color: var(--color-White);
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(130px, 1fr));
+  gap: 0.5rem;
+  align-items: start;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.columns--column {
+  background-color: var(--color-Grey1);
+  border-radius: 6px;
+  padding: 0.5rem;
+  min-height: 800px;
+  transition:
+    opacity 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+  height: 100%;
+  max-height: 500px;
+  overflow: auto; 
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+  overflow-x: hidden; 
+}
+
+.columns--column::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.column-title {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-Grey3);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid transparent;
+  border-image: 1 var(--gradient-Pink-Peach);
+  user-select: none;
+
+  
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding-bottom: 0.25rem;
+}
+
+.columns--column.is-valid-target {
+  border-color: var(--color-Grey2);
+  background-color: var(--color-Licorice);
+}
+
+.columns--column.is-valid-target.drag-over {
+  border-color: var(--color-Licorice);
+  background-color: var(--color-White);
+}
+
+.columns--column.is-invalid-target {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.lesson-card {
+  background-color: var(--color-White);
+  border: 1px solid var(--color-Grey2);
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 2px 4px rgba(20, 18, 16, 0.04);
+  cursor: grab;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    opacity 0.15s ease;
+  user-select: none;
+  word-break: break-word;
+}
+
+.lesson-card:active {
+  cursor: grabbing;
+}
+
+.lesson-card.is-dragging {
+  opacity: 0.4;
+  transform: scale(0.98);
+}
+
+.lesson-card h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-Licorice);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+.lesson-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-Grey3);
+  line-height: 1.4;
+  width: fit-content;
+}
+
+.lesson-card p:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.lesson-card .meta {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-Grey2);
+}
+
+.columns--column[data-status="skipped"] .lesson-card {
+  background-color: var(--color-Grey1);
+}
+
+.columns--column[data-status="rejected"] .lesson-card {
+  border-left: 4px solid #e74c3c;
+  background-color: #fdf2f2;
+}
+
+.columns--column[data-status="rated"] .lesson-card {
+  background-color: var(--color-Grey1);
+  cursor: default;
+
+}
+
+.no-hand {
+  cursor: default;
+}
+
+.lesson-card p.rejection-reason {
+  margin-top: 0.4rem;
+  font-style: italic;
+  color: var(--color-Licorice);
+  width: 100%;
+}
+
+.lesson-card p.rejection-reason:hover {
+  cursor: default;
+  text-decoration: none;
+}
+
+#board-container ::deep .custom-btn,
+.custom-btn {
+  display: inline-block;
+  background-image: var(--gradient-Pink-Peach);
+  border: none;
+  border-radius: 4px;
+  padding: 0.25rem 0.75rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--color-Gray1);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .columns {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+  .columns--column {
+    overflow: visible; 
+    max-height: none; 
+    min-width: 0;
+    padding: 0.25rem;
+  }
+  .column-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+    font-size: 0.85rem;
+  }
+  .lesson-card {
+    padding: 0.5rem;
+    position: relative; 
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .lesson-card .meta,
+  .lesson-card p,
+  .lesson-card .custom-btn,
+  .lesson-card .rejection-reason,
+  .lesson-card a {
+    display: none;
+  }
+
+  .lesson-card h4 {
+    display: block;
+    width: 3ch;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip; 
+    margin: 0;
+  }
+
+  .lesson-card:hover {
+    width: 220px; 
+    z-index: 100; 
+    box-shadow: 0 8px 16px rgba(20, 18, 16, 0.15);
+  }
+
+  .lesson-card:hover h4 {
+    width: auto;
+    white-space: normal;
+    margin-bottom: 0.5rem;
+    display: flex;
+  }
+
+  .lesson-card:hover .meta,
+  .lesson-card:hover p,
+  .lesson-card:hover .rejection-reason {
+    display: block;
+  }
+
+  .lesson-card:hover .custom-btn {
+    display: inline-block;
+  }
+
+  .columns--column:nth-last-child(-n+2) .lesson-card:hover {
+    margin-left: calc(100% - 220px);
+  }
+}

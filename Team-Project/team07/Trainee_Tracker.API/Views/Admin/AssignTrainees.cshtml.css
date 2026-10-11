@@ -1,0 +1,88 @@
+/* --- Base Page Layout --- */
+.layout--page {
+  min-height: 100vh;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+.page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Constrain width for table views so columns don't stretch too far */
+.page-table-layout {
+  max-width: 1000px;
+}
+
+.page-row-spacer {
+  height: 24px;
+}
+
+/* --- Form Controls --- */
+.form-card {
+  background-color: var(--color-White);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(20, 18, 16, 0.15);
+  padding: 24px;
+}
+
+.form-card h4 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-Licorice);
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-Grey3);
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* Bootstrap Select overrides for a slightly cleaner look */
+.form-select {
+  border-color: var(--color-Grey2);
+  color: var(--color-Licorice);
+  box-shadow: none !important;
+}
+
+.form-select:focus {
+  border-color: var(--color-Pink);
+}
+
+/* --- Table Adjustments --- */
+.table th {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-Grey3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--color-Grey2);
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.table td {
+  color: var(--color-Licorice);
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+/* Customizing the badge to look less generic */
+.badge.bg-info {
+  background-color: var(--color-White) !important;
+  color: var(--color-Licorice) !important;
+  font-weight: 600;
+  border: 1px solid var(--color-Grey2);
+}
+
+/* Compact button sizing for inline table-row actions */
+.table .btn-flat-secondary {
+  padding: 6px 16px;
+  font-size: 0.85rem;
+}

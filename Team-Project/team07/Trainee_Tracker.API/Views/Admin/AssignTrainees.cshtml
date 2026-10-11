@@ -1,0 +1,183 @@
+@model IReadOnlyList<Trainee_Tracker.API.Models.MentorAssignmentViewModel>
+
+@{
+    ViewData["Title"] = "Mentor Assignments";
+
+    // Collects the available mentors once for the assignment form.
+    var availableMentors = Model
+        .SelectMany(trainee => trainee.AvailableMentors)
+        .GroupBy(mentor => mentor.Id)
+        .Select(group => group.First())
+        .OrderBy(mentor => mentor.Name)
+        .ToList();
+}
+
+<main class="layout--page" id="content">
+    <div class="page page-table-layout">
+
+        <div class="page-row">
+            <h1 class="page-title">MENTOR ASSIGNMENTS</h1>
+        </div>
+
+        @if (TempData["AssignmentMessage"] is string message)
+        {
+            <div class="page-alert -success" role="alert">
+                @message
+            </div>
+        }
+
+        @if (TempData["AssignmentError"] is string error)
+        {
+            <div class="page-alert -danger" role="alert">
+                @error
+            </div>
+        }
+
+        <div class="page-row-spacer"></div>
+
+        <div class="assignment-controls form-card">
+            <h4>Create New Assignment</h4>
+
+            <form asp-controller="Admin"
+                  asp-action="AssignMentor"
+                  method="post"
+                  class="d-flex align-items-end gap-3">
+
+                <div class="form-group flex-grow-1">
+                    <label for="traineeSelect">Trainee</label>
+
+                    <select class="form-select"
+                            id="traineeSelect"
+                            name="traineeId"
+                            required>
+                        <option value="" selected disabled>
+                            Select a trainee...
+                        </option>
+
+                        @foreach (var trainee in Model)
+                        {
+                            <option value="@trainee.TraineeId">
+                                @trainee.TraineeName
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group flex-grow-1">
+                    <label for="mentorSelect">Mentor</label>
+
+                    <select class="form-select"
+                            id="mentorSelect"
+                            name="mentorId"
+                            required>
+                        <option value="" selected disabled>
+                            Select a mentor...
+                        </option>
+
+                        @foreach (var mentor in availableMentors)
+                        {
+                            <option value="@mentor.Id">
+                                @mentor.Name
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <button type="submit"
+                        class="btn-gradient">
+                    Assign
+                </button>
+            </form>
+        </div>
+
+        <div class="page-row-spacer"></div>
+
+        <div class="table-responsive bg-white rounded shadow-sm border">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class="ps-4">Trainee</th>
+                        <th scope="col">Assigned Mentor</th>
+                        <th scope="col" class="text-end pe-4">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="3"
+                                class="text-center text-muted py-4">
+                                No trainees are available.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var trainee in Model)
+                        {
+                            if (trainee.AssignedMentors.Count == 0)
+                            {
+                                <tr>
+                                    <td class="ps-4">
+                                        <strong>@trainee.TraineeName</strong>
+                                    </td>
+
+                                    <td>
+                                        <span class="text-muted">
+                                            No mentor assigned
+                                        </span>
+                                    </td>
+
+                                    <td class="text-end pe-4">
+                                        <span class="text-muted">—</span>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var mentor in trainee.AssignedMentors)
+                                {
+                                    <tr>
+                                        <td class="ps-4">
+                                            <strong>
+                                                @trainee.TraineeName
+                                            </strong>
+                                        </td>
+
+                                        <td>
+                                            <span class="badge bg-info text-dark rounded-pill px-3 py-2">
+                                                @mentor.Name
+                                            </span>
+                                        </td>
+
+                                        <td class="text-end pe-4">
+                                            <form asp-controller="Admin"
+                                                  asp-action="UnassignMentor"
+                                                  method="post">
+                                                <input type="hidden"
+                                                       name="traineeId"
+                                                       value="@trainee.TraineeId" />
+
+                                                <input type="hidden"
+                                                       name="mentorId"
+                                                       value="@mentor.Id" />
+
+                                                <button type="submit"
+                                                        class="btn-flat-secondary">
+                                                    Unassign
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>

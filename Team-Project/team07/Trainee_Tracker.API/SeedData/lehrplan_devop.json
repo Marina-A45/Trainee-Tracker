@@ -1,0 +1,436 @@
+[
+  {
+    "id": 509332,
+    "title": "000 Start!",
+    "url": "https://makandracards.com/makandra-devops-curriculum/509332-start",
+    "estimate": 0.0,
+    "deprecated": false
+  },
+  {
+    "id": 509333,
+    "title": "100 Grundlagen aus der Web-Entwicklung",
+    "url": "https://makandracards.com/makandra-devops-curriculum/509333-grundlagen-aus-der-web-entwicklung-3-5-pt",
+    "estimate": 3.5,
+    "deprecated": false
+  },
+  {
+    "id": 509339,
+    "title": "200 Linux",
+    "url": "https://makandracards.com/makandra-devops-curriculum/509339-linux-2-pt",
+    "estimate": 2.0,
+    "deprecated": false
+  },
+  {
+    "id": 511178,
+    "title": "201 Das Linux Dateisystem",
+    "url": "https://makandracards.com/makandra-devops-curriculum/511178-das-linux-dateisystem-1-pt",
+    "estimate": 1.0,
+    "deprecated": false
+  },
+  {
+    "id": 509414,
+    "title": "202 Linux-Prozesse",
+    "url": "https://makandracards.com/makandra-devops-curriculum/509414-linux-prozesse-1-pt",
+    "estimate": 1.0,
+    "deprecated": false
+  },
+  {
+    "id": 509415,
+    "title": "203 Ressourcen-Nutzung",
+    "url": "https://makandracards.com/makandra-devops-curriculum/509415-ressourcen-nutzung-1-pt",
+    "estimate": 1.0,
+    "deprecated": false
+  },
+  {
+    "id": 511179,
+    "title": "204 Linux Filesystems und Verschl\u00fcsselung",
+    "url": "https://makandracards.com/makandra-devops-curriculum/511179-linux-filesystems-und-verschluesselung-2-pt",
+    "estimate": 2.0,
+    "deprecated": false
+  },
+  {
+    "id": 511330,
+    "title": "205 Linux Kernel Parameter",
+    "url": "https://makandracards.com/makandra-devops-curriculum/511330-linux-kernel-parameter-0-5-pt",
+    "estimate": 0.5,
+    "deprecated": false
+  },
+  {
+    "id": 511181,
+    "title": "206 SSH",
+    "url": "https://makandracards.com/makandra-devops-curriculum/511181-ssh-0-5-pt",
+    "estimate": 0.5,
+    "deprecated": false
+  },
+  {
+    "id": 509341,
+    "title": "207 Netzwerke",
+    "url": "https://makandracards.com/makandra-devops-curriculum/509341-netzwerke-4-pt",
+    "estimate": 4.0,
+    "deprecated": false
+  },
+  {
+    "id": 511333,
+    "title": "208 Systemd",
+    "url": "https://makandracards.com/makandra-devops-curriculum/511333-systemd-3-pt",
+    "estimate": 3.0,
+    "deprecated": false
+  },
+  {
+    "id": 509340,
+    "title": "220 Virtualisierung",
+    "url": "https://makandracards.com/makandra-devops-curriculum/509340-virtualisierung-2-pt",
+    "estimate": 2.0,
+    "deprecated": false
+  },
+  {
+    "id": 517382,
+    "title": "221 LXC/LXD",
+    "url": "https://makandracards.com/makandra-devops-curriculum/517382-lxc-lxd-2-pt",
+    "estimate": 2.0,
+    "deprecated": false
+  },
+  {
+    "id": 523491,
+    "title": "222 Kurze Einf\u00fchrung in Docker und Container",
+    "url": "https://makandracards.com/makandra-devops-curriculum/523491-kurze-einfuehrung-docker-und-container-1-pt",
+    "estimate": 1.0,
+    "deprecated": false
+  },
+  {
+    "id": 531475,
+    "title": "223 Firewalling mit iptables",
+    "url": "https://makandracards.com/makandra-devops-curriculum/531475-firewalling-mit-iptables-0-5-pt",
+    "estimate": 0.5,
+    "deprecated": false
+  },
+  {
+    "id": 519412,
+    "title": "230 HTTP Protokoll und Webserver",
+    "url": "https://makandracards.com/makandra-devops-curriculum/519412-http-protokoll-und-webserver-2-5-pt",
+    "estimate": 2.5,
+    "deprecated": false
+  },
+  {
+    "id": 519439,
+    "title": "231 SSL/TLS, Encryption und Hashing",
+    "url": "https://makandracards.com/makandra-devops-curriculum/519439-ssl-tls-encryption-und-hashing-1-5-pt",
+    "estimate": 1.5,
+    "deprecated": false
+  },
+  {
+    "id": 531501,
+    "title": "232 (Postgre)SQL basics",
+    "url": "https://makandracards.com/makandra-devops-curriculum/531501-postgre-sql-basics-1-pt",
+    "estimate": 1.0,
+    "deprecated": false
+  },
+  {
+    "id": 509342,
+    "title": "300 Code, Scripts und Automatisierung",
+    "url": "https://makandracards.com/makandra-devops-curriculum/509342-code-scripts-und-automatisierung",
+    "estimate": 0.0,
+    "deprecated": false
+  },
+  {
+    "id": 513761,
+    "title": "301 Ruby Basics",
+    "url": "https://makandracards.com/makandra-devops-curriculum/513761-ruby-basics-2-pt",
+    "estimate": 2.0,
+    "deprecated": false
+  },
+  {
+    "id": 513768,
+    "title": "302 Gems, bundler, rbenv",
+    "url": "https://makandracards.com/makandra-devops-curriculum/513768-gems-bundler-rbenv-1-pt",
+    "estimate": 1.0,
+    "deprecated": false
+  },
+  {
+    "id": 509343,
+    "title": "310 Configuration Management und Ansible Basics",
+    "url": "https://makandracards.com/makandra-devops-curriculum/509343-configuration-management-und-ansible-basics-3-pt",
+    "estimate": 3.0,
+    "deprecated": false
+  },
+  {
+    "id": 541193,
+    "title": "311 Nodes mit Ansible Managen",
+    "url": "https://makandracards.com/makandra-devops-curriculum/541193-nodes-mit-ansible-managen-4-pt",
+    "estimate": 4.0,
+    "deprecated": false
+  },
+  {
+    "id": 513764,
+    "title": "320 Advanced Git",
+    "url": "https://makandracards.com/makandra-devops-curriculum/513764-advanced-git-2-pt",
+    "estimate": 2.0,
+    "deprecated": false
+  },
+  {
+    "id": 513769,
+    "title": "330 Scripting mit JSON APIs",
+    "url": "https://makandracards.com/makandra-devops-curriculum/513769-scripting-mit-json-apis-4-pt",
+    "estimate": 4.0,
+    "deprecated": false
+  },
+  {
+    "id": 513771,
+    "title": "331 Schreiben von Tests",
+    "url": "https://makandracards.com/makandra-devops-curriculum/513771-schreiben-von-tests-3-pt",
+    "estimate": 3.0,
+    "deprecated": false
+  },
+  {
+    "id": 509344,
+    "title": "400 AWS Fundamentals",
+    "url": "https://makandracards.com/makandra-devops-curriculum/509344-aws-fundamentals-2-pt",
+    "estimate": 2.0,
+    "deprecated": false
+  },
+  {
+    "id": 509345,
+    "title": "401 Infrastructure as Code",
+    "url": "https://makandracards.com/makandra-devops-curriculum/509345-infrastructure-code-0-25-pt",
+    "estimate": 0.25,
+    "deprecated": false
+  },
+  {
+    "id": 521546,
+    "title": "402 Terraform Basics",
+    "url": "https://makandracards.com/makandra-devops-curriculum/521546-terraform-basics-2-pt",
+    "estimate": 2.0,
+    "deprecated": false
+  },
+  {
+    "id": 518037,
+    "title": "410 AWS IAM and Accounts",
+    "url": "https://makandracards.com/makandra-devops-curriculum/518037-aws-iam-accounts-1-pt",
+    "estimate": 1.0,
+    "deprecated": false
+  },
+  {
+    "id": 518038,
+    "title": "411 AWS Simple Storage Service (S3)",
+    "url": "https://makandracards.com/makandra-devops-curriculum/518038-aws-simple-storage-service-s3-1-5-pt",
+    "estimate": 1.5,
+    "deprecated": false
+  },
+  {
+    "id": 518039,
+    "title": "412 AWS VPCs and Connectivity",
+    "url": "https://makandracards.com/makandra-devops-curriculum/518039-aws-vpcs-connectivity-2-pt",
+    "estimate": 2.0,
+    "deprecated": false
+  },
+  {
+    "id": 518048,
+    "title": "413 AWS EC2",
+    "url": "https://makandracards.com/makandra-devops-curriculum/518048-aws-ec2-3-pt",
+    "estimate": 3.0,
+    "deprecated": false
+  },
+  {
+    "id": 518116,
+    "title": "414 AWS EFS",
+    "url": "https://makandracards.com/makandra-devops-curriculum/518116-aws-efs-0-5-pt",
+    "estimate": 0.5,
+    "deprecated": false
+  },
+  {
+    "id": 523445,
+    "title": "415 Managen von AWS EC2 Ressourcen mit Terraform",
+    "url": "https://makandracards.com/makandra-devops-curriculum/523445-managen-von-aws-ec2-ressourcen-mit-terraform-2-pt",
+    "estimate": 2.0,
+    "deprecated": false
+  },
+  {
+    "id": 518049,
+    "title": "416 Containers & ECS",
+    "url": "https://makandracards.com/makandra-devops-curriculum/518049-containers-ecs-0-5-pt",
+    "estimate": 0.5,
+    "deprecated": false
+  },
+  {
+    "id": 518053,
+    "title": "417 Route 53",
+    "url": "https://makandracards.com/makandra-devops-curriculum/518053-route-53-0-5-pt",
+    "estimate": 0.5,
+    "deprecated": false
+  },
+  {
+    "id": 518055,
+    "title": "418 AWS RDS",
+    "url": "https://makandracards.com/makandra-devops-curriculum/518055-aws-rds-2-pt",
+    "estimate": 2.0,
+    "deprecated": false
+  },
+  {
+    "id": 518118,
+    "title": "419 AWS Loadbalancing and Scaling",
+    "url": "https://makandracards.com/makandra-devops-curriculum/518118-aws-loadbalancing-scaling-1-5-pt",
+    "estimate": 1.5,
+    "deprecated": false
+  },
+  {
+    "id": 523470,
+    "title": "420 EC2 Autoscaling und Loadbalancing mit Terraform provisionieren",
+    "url": "https://makandracards.com/makandra-devops-curriculum/523470-ec2-autoscaling-und-loadbalancing-mit-terraform-provisionieren",
+    "estimate": 3.0,
+    "deprecated": false
+  },
+  {
+    "id": 518547,
+    "title": "421 AWS Cloudfront und HTTP Caching",
+    "url": "https://makandracards.com/makandra-devops-curriculum/518547-aws-cloudfront-und-http-caching-1-pt",
+    "estimate": 1.0,
+    "deprecated": false
+  },
+  {
+    "id": 518302,
+    "title": "422 AWS Serverless und Lambda",
+    "url": "https://makandracards.com/makandra-devops-curriculum/518302-aws-serverless-und-lambda-2-pt",
+    "estimate": 2.0,
+    "deprecated": false
+  },
+  {
+    "id": 523498,
+    "title": "423 Automatisierung mit Lambda Funktionen",
+    "url": "https://makandracards.com/makandra-devops-curriculum/523498-automatisierung-mit-lambda-funktionen-3-pt",
+    "estimate": 3.0,
+    "deprecated": false
+  },
+  {
+    "id": 518548,
+    "title": "424 Hybrid Cloud Verbindung und Migrationen",
+    "url": "https://makandracards.com/makandra-devops-curriculum/518548-hybrid-cloud-verbindung-und-migrationen-1-pt",
+    "estimate": 1.0,
+    "deprecated": false
+  },
+  {
+    "id": 518583,
+    "title": "425 AWS Security, Encryption und Compliance",
+    "url": "https://makandracards.com/makandra-devops-curriculum/518583-aws-security-encryption-und-compliance-0-5-pt",
+    "estimate": 0.5,
+    "deprecated": false
+  },
+  {
+    "id": 518584,
+    "title": "426 NOSQL, DynamoDB and Analytics",
+    "url": "https://makandracards.com/makandra-devops-curriculum/518584-nosql-dynamodb-analytics-0-5-pt",
+    "estimate": 0.5,
+    "deprecated": false
+  },
+  {
+    "id": 529098,
+    "title": "500 Kubernetes und Container \u00dcbersicht",
+    "url": "https://makandracards.com/makandra-devops-curriculum/529098-kubernetes-und-container-uebersicht-0-5-pt",
+    "estimate": 0.5,
+    "deprecated": false
+  },
+  {
+    "id": 529135,
+    "title": "501 Funktionsweise von Containern",
+    "url": "https://makandracards.com/makandra-devops-curriculum/529135-funktionsweise-von-containern-1-5-pt",
+    "estimate": 1.5,
+    "deprecated": false
+  },
+  {
+    "id": 530542,
+    "title": "502 Eine Applikation als Container mit CI pipelines deployen",
+    "url": "https://makandracards.com/makandra-devops-curriculum/530542-eine-applikation-als-container-mit-ci-pipelines-deployen",
+    "estimate": 4.0,
+    "deprecated": false
+  },
+  {
+    "id": 530782,
+    "title": "503 Kubernetes Basics",
+    "url": "https://makandracards.com/makandra-devops-curriculum/530782-kubernetes-basics-0-5-pt",
+    "estimate": 0.5,
+    "deprecated": false
+  },
+  {
+    "id": 530785,
+    "title": "504 Kubernetes Ressourcen um Workloads/Applikationen zu deployen",
+    "url": "https://makandracards.com/makandra-devops-curriculum/530785-kubernetes-ressourcen-um-workloads-applikationen-zu",
+    "estimate": 0.5,
+    "deprecated": false
+  },
+  {
+    "id": 530788,
+    "title": "505 Kubernetes Networking",
+    "url": "https://makandracards.com/makandra-devops-curriculum/530788-kubernetes-networking-1-5-pt",
+    "estimate": 1.5,
+    "deprecated": false
+  },
+  {
+    "id": 531979,
+    "title": "506 Debugging Kubernetes Pod scheduling",
+    "url": "https://makandracards.com/makandra-devops-curriculum/531979-debugging-kubernetes-pod-scheduling-0-25-pt",
+    "estimate": 0.25,
+    "deprecated": false
+  },
+  {
+    "id": 532001,
+    "title": "507 Kubernetes Authorization and RBAC",
+    "url": "https://makandracards.com/makandra-devops-curriculum/532001-kubernetes-authorization-rbac-0-5-pt",
+    "estimate": 0.5,
+    "deprecated": false
+  },
+  {
+    "id": 532014,
+    "title": "508 Kubernetes Container Runtime",
+    "url": "https://makandracards.com/makandra-devops-curriculum/532014-kubernetes-container-runtime-0-25-pt",
+    "estimate": 0.25,
+    "deprecated": false
+  },
+  {
+    "id": 532026,
+    "title": "509 Kubernetes Persistent Storage",
+    "url": "https://makandracards.com/makandra-devops-curriculum/532026-kubernetes-persistent-storage-0-5-pt",
+    "estimate": 0.5,
+    "deprecated": false
+  },
+  {
+    "id": 532024,
+    "title": "510 Kubernetes Applikations Konfiguration und Secrets",
+    "url": "https://makandracards.com/makandra-devops-curriculum/532024-kubernetes-applikations-konfiguration-und-secrets-0",
+    "estimate": 0.5,
+    "deprecated": false
+  },
+  {
+    "id": 532029,
+    "title": "511 EKS Cluster und mehrere Terraform States",
+    "url": "https://makandracards.com/makandra-devops-curriculum/532029-eks-cluster-und-mehrere-terraform-states-4-pt",
+    "estimate": 4.0,
+    "deprecated": false
+  },
+  {
+    "id": 532988,
+    "title": "512 k8s Workload Health and Resources",
+    "url": "https://makandracards.com/makandra-devops-curriculum/532988-k8s-workload-health-resources-1-pt",
+    "estimate": 1.0,
+    "deprecated": false
+  },
+  {
+    "id": 533008,
+    "title": "513 k8s Custom Resources and Operators",
+    "url": "https://makandracards.com/makandra-devops-curriculum/533008-k8s-custom-resources-operators-0-5-pt",
+    "estimate": 0.5,
+    "deprecated": false
+  },
+  {
+    "id": 533169,
+    "title": "514 Applikations Stabilit\u00e4t und Monitoring",
+    "url": "https://makandracards.com/makandra-devops-curriculum/533169-applikations-stabilitaet-und-monitoring-0-5-pt",
+    "estimate": 0.5,
+    "deprecated": false
+  },
+  {
+    "id": 533179,
+    "title": "515 Infrastruktur auf AWS Monitoren",
+    "url": "https://makandracards.com/makandra-devops-curriculum/533179-infrastruktur-auf-aws-monitoren-2-pt",
+    "estimate": 2.0,
+    "deprecated": false
+  }
+]

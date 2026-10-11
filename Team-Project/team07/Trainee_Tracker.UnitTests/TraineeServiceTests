@@ -1,0 +1,159 @@
+using Moq;
+using Trainee_Tracker.Core.Entity;
+using Trainee_Tracker.Core.Exceptions;
+using Trainee_Tracker.Core.Repository;
+using Trainee_Tracker.Service;
+using Xunit;
+
+namespace Trainee_Tracker.UnitTests;
+/// By Tim Glaser
+/// <summary>
+/// Unit tests for the TraineeService.
+/// </summary>
+public class TraineeServiceTests
+{
+    /// <summary>
+    /// Verifies that GetTraineeById returns the trainee provided by the repository.
+    /// </summary>
+    [Fact]
+    public void GetTraineeById_ReturnsTrainee_WhenTraineeExists()
+    {
+        var traineeId = Guid.NewGuid();
+
+        var trainee = new Trainee
+        {
+            guid = traineeId,
+            Id = traineeId.ToString(),
+            Email = "trainee@example.com",
+            UserName = "trainee@example.com",
+            FirstName = "Test",
+            LastName = "Trainee",
+            active = true,
+            knowledge = "",
+            StartDate = new DateOnly(2026, 1, 1),
+            EndDate = new DateOnly(2026, 12, 31)
+        };
+
+        var traineeRepository = new Mock<ITraineeRepository>();
+
+        traineeRepository
+            .Setup(repo => repo.GetTraineeById(traineeId))
+            .Returns(trainee);
+
+        var service = new TraineeService(traineeRepository.Object);
+
+        var result = service.GetTraineeById(traineeId);
+
+        Assert.Same(trainee, result);
+
+        traineeRepository.Verify(
+            repo => repo.GetTraineeById(traineeId),
+            Times.Once
+        );
+    }
+
+    /// <summary>
+    /// Verifies that GetTraineeById throws a TraineeNotFoundException
+    /// when the repository cannot find a trainee for the given ID.
+    /// </summary>
+    [Fact]
+    public void GetTraineeById_ThrowsTraineeNotFoundException_WhenTraineeDoesNotExist()
+    {
+        var traineeId = Guid.NewGuid();
+
+        var traineeRepository = new Mock<ITraineeRepository>();
+
+        traineeRepository
+            .Setup(repo => repo.GetTraineeById(traineeId))
+            .Returns((Trainee?)null);
+
+        var service = new TraineeService(traineeRepository.Object);
+
+        var act = () => service.GetTraineeById(traineeId);
+
+        Assert.Throws<TraineeNotFoundException>(act);
+
+        traineeRepository.Verify(
+            repo => repo.GetTraineeById(traineeId),
+            Times.Once
+        );
+    }
+
+    /// <summary>
+    /// Verifies that GetAllTrainees returns all trainees provided by the repository.
+    /// </summary>
+    [Fact]
+    public void GetAllTrainees_ReturnsTrainees_WhenRepositoryReturnsList()
+    {
+        var trainees = new List<Trainee>
+        {
+            new()
+            {
+                guid = Guid.NewGuid(),
+                Email = "trainee.one@example.com",
+                UserName = "trainee.one@example.com",
+                FirstName = "Tina",
+                LastName = "Trainee",
+                active = true,
+                knowledge = "",
+                StartDate = new DateOnly(2026, 1, 1),
+                EndDate = new DateOnly(2026, 12, 31)
+            },
+            new()
+            {
+                guid = Guid.NewGuid(),
+                Email = "trainee.two@example.com",
+                UserName = "trainee.two@example.com",
+                FirstName = "Tom",
+                LastName = "Trainee",
+                active = true,
+                knowledge = "",
+                StartDate = new DateOnly(2026, 2, 1),
+                EndDate = new DateOnly(2026, 11, 30)
+            }
+        };
+
+        var traineeRepository = new Mock<ITraineeRepository>();
+
+        traineeRepository
+            .Setup(repo => repo.GetAllTrainees())
+            .Returns(trainees);
+
+        var service = new TraineeService(traineeRepository.Object);
+
+        var result = service.GetAllTrainees();
+
+        Assert.Same(trainees, result);
+        Assert.Equal(2, result.Count);
+
+        traineeRepository.Verify(
+            repo => repo.GetAllTrainees(),
+            Times.Once
+        );
+    }
+
+    /// <summary>
+    /// Verifies that GetAllTrainees throws a TraineeNotFoundException
+    /// when the repository returns null.
+    /// </summary>
+    [Fact]
+    public void GetAllTrainees_ThrowsTraineeNotFoundException_WhenRepositoryReturnsNull()
+    {
+        var traineeRepository = new Mock<ITraineeRepository>();
+
+        traineeRepository
+            .Setup(repo => repo.GetAllTrainees())
+            .Returns((List<Trainee>?)null);
+
+        var service = new TraineeService(traineeRepository.Object);
+
+        var act = () => service.GetAllTrainees();
+
+        Assert.Throws<TraineeNotFoundException>(act);
+
+        traineeRepository.Verify(
+            repo => repo.GetAllTrainees(),
+            Times.Once
+        );
+    }
+}

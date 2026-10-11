@@ -1,0 +1,104 @@
+.button {
+  background-color: var(--color-White);
+  border: 1px solid var(--color-Grey2);
+  border-radius: 6px;
+  padding: 0.5rem;
+}
+
+h4 {
+  word-break: break-word;
+}
+
+p3 {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid transparent;
+  border-image: 1 var(--gradient-Pink-Peach);
+}
+.headline h2 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.25rem;
+  align-items: start;
+
+  background-color: var(--color-Grey1);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.lesson-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-White);
+  border: 1px solid var(--color-Grey2);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.curriculum-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.curriculum-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: var(--color-Grey1);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.active {
+  border-color: var(--color-Licorice) !important;
+}
+
+.curriculum-btn-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-Licorice, #141210);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.curriculum-btn-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--color-Grey3, #666);
+}
+
+.curriculum-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid transparent;
+  border-image: 1 var(--gradient-Pink-Peach);
+}
+
+.empty-state {
+  width: 100%;
+  text-align: center;
+  padding: 3rem;
+  background-color: var(--color-Grey1);
+  border-radius: 6px;
+  color: var(--color-Grey3);
+}
+
+.inactive{
+  background-color: var(--color-Grey2);
+}

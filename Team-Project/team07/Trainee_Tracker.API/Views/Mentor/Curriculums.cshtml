@@ -1,0 +1,237 @@
+@using System.Text.Json
+@using System.Linq
+@using Trainee_Tracker.Core.Service
+@using Trainee_Tracker.Core.Entity
+@inject ICurriculumService CurriculumService
+@{
+    ViewData["Title"] = "Curriculum Management";
+    IEnumerable<Curriculum> curriculums = CurriculumService.getAll();
+    var jsonOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+}
+
+    <main class="layout--page" id="content">
+        <div class="page">
+
+            <div class="page-row">
+                <div id="lessons-heading">
+                    <h1 class="page-title">CURRICULUM MANAGEMENT</h1>
+                </div>
+            </div>
+
+            <div class="page-row-spacer mt-4"></div>
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="page-alert -danger" role="alert">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+            <div class="page-row">
+                <div class="curriculum-layout">
+
+                    <div class="curriculum-sidebar" id="curriculum-list">
+                        <button type="button" id="create-curriculum-btn" class="btn-gradient">
+                            + Add New Curriculum
+                        </button>
+                        <p3 style="margin-top: 0;"></p3>
+
+                        @foreach (var curr in curriculums)
+                        {
+                            <button type="button" class="btn-curriculum-item button"
+                                    onclick="selectCurriculum('@curr.id', this)">
+                                <div class="w-btn-title">@curr.name</div>
+                                <div class="curriculum-btn-meta">
+                                    <span><strong>@(curr.lessons?.Count() ?? 0) Lessons</strong></span>
+                                    <span>Updated: @curr.updated</span>
+                                </div>
+                            </button>
+                        }
+                    </div>
+
+                    <div class="curriculum-content">
+                        <div class="curriculum-header" id="content-header" style="display: none;">
+                            <h3 id="selected-curriculum-title" class="m-0" style="color: var(--color-White);">Select a
+                                Curriculum</h3>
+                                <form asp-controller="Curriculum" asp-action="Delete" method="post" id="delete-button"
+                                      style="display:flex; justify-content: space-between; gap: 10px;"
+                                      onsubmit="return confirm('Are you sure you want to delete this curriculum? This action cannot be undone.');">
+
+                                    <input type="hidden" name="id" id="delete-item-id" value="" />
+
+                                    <button type="submit" id="delete-btn" class="btn-flat-secondary">
+                                        Delete
+                                    </button>
+                                </form>
+
+                                <form asp-controller="Curriculum" asp-action="EditWithJsonFile" method="post"
+                                      enctype="multipart/form-data" id="import-button"
+                                      style="display:flex; justify-content: space-between; gap: 10px;">
+                                    <input type="hidden" name="id" id="edit-item-id" value="" />
+                                    <div>
+                                        <input class="form-control d-none" type="file" id="import-file" name="file"
+                                               accept=".json" required onchange="uploadJson(this);" />
+                                        <label for="import-file" class="btn-gradient">
+                                            Upload JSON File
+                                        </label>
+                                    </div>
+                                </form>
+                        </div>
+                        <div class="curriculum-header" id="creator-header" style="display: none;">
+
+                                <form class="addCurriculum" asp-controller="Curriculum" asp-action="CreateWithJsonFile"
+                                      method="post" enctype="multipart/form-data"
+                                      style="display:flex; justify-content: space-between; gap: 10px; align-items:center; width: 100%">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                                    <div>
+                                        <input type="text" id="new-curriculum-name" name="name"
+                                               class="form-control form-control-lg" placeholder="Enter Curriculum Name..."
+                                                />
+                                    </div>
+                                    <div>
+                                        <input class="form-control d-none" type="file" id="jsonFile" name="file"
+                                               accept=".json" required onchange="uploadJson(this);" />
+                                        <label for="jsonFile" class="btn-gradient">
+                                            <i class="bi bi-upload"></i> Upload JSON File
+                                        </label>
+                                    </div>
+                                </form>
+                        </div>
+
+
+                        <div class="review-grid" id="lesson-grid">
+                            <div class="empty-state w-100" id="creation-message"
+                                 style="display: none; grid-column: 1 / -1;">
+                                Name your new curriculum and use the "Import new Content" button above to populate
+                                lessons.
+                            </div>
+
+                            @foreach (var curr in curriculums)
+                            {
+                                if ((curr.lessons?.Count() ?? 0) == 0)
+                                {
+                                    <div class="empty-state w-100 lesson-item" data-curr-id="@curr.id"
+                                         style="display: none; grid-column: 1 / -1;">
+                                        No lessons currently in this curriculum. Use the import button to add content.
+                                    </div>
+                                }
+                                else
+                                {
+                                    foreach (var lesson in (curr.lessons ?? Enumerable.Empty<Lesson>()).OrderBy(l =>
+                            l.defaultPosition))
+                                    {
+                                            <div class="lesson-card lesson-item @(lesson.isActive ? "" : "inactive")"
+                                                 data-curr-id="@curr.id" style="display: none;">
+                                            <div class="meta " style="margin-bottom: 1rem; text-align: right; padding: 0.5rem;">
+                                                <small>Est. Duration: @lesson.timeEstimate d</small>
+                                            </div>
+                                            <h4>@lesson.title</h4>
+                                            <a href=@lesson.url style="margin-bottom: 0;">Go to Lesson</a>
+                                            <p>Position: @lesson.defaultPosition</p>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        /// <summary>
+        /// Manages the styling choices for html elements, on different view types (e.g. New import /empty view / curriculum View)
+        /// Author: Lukas Nowak
+        /// </summary>
+        const database = @Html.Raw(JsonSerializer.Serialize(curriculums, jsonOptions));
+        // The currently selected Curriculum
+        let activeCurriculumId = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const creationMessageEl = document.getElementById('creation-message');
+
+            // Viewer elements
+            const contentHeader = document.getElementById('content-header');
+            const selectedTitle = document.getElementById('selected-curriculum-title');
+
+            // Creator elements
+            const createCurriculumBtn = document.getElementById('create-curriculum-btn');
+            const creatorHeader = document.getElementById('creator-header');
+            const newCurriculumNameInput = document.getElementById('new-curriculum-name');
+
+            window.selectCurriculum = function (id, clickedBtnElement) {
+                activeCurriculumId = id;
+                const selected = database.find(c => c.id === id);
+
+                // Add styling for selected button
+                document.querySelectorAll('.btn-curriculum-item').forEach(btn => btn.classList.remove('active'));
+                if (clickedBtnElement) clickedBtnElement.classList.add('active');
+
+                // Show the curriculum contents and no creation contents
+                creationMessageEl.style.display = 'none';
+                creatorHeader.style.display = 'none';
+                contentHeader.style.display = 'flex';
+                selectedTitle.textContent = selected.name;
+                document.getElementById('delete-item-id').value = id;
+                document.getElementById('edit-item-id').value = id;
+
+                // Show only the lessons for the selected curriculum
+                document.querySelectorAll('.lesson-item').forEach(el => el.style.display = 'none');
+                document.querySelectorAll(`.lesson-item[data-curr-id="${id}"]`).forEach(el => el.style.display = '');
+            };
+
+            // Creation Mode: Handle creating a new curriculum
+            createCurriculumBtn.addEventListener('click', () => {
+                activeCurriculumId = "new-draft";
+                document.querySelectorAll('.btn-curriculum-item').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.lesson-item').forEach(el => el.style.display = 'none');
+                newCurriculumNameInput.value = '';
+
+                // Show the creation contents and no curriculum contents
+                contentHeader.style.display = 'none';
+                creatorHeader.style.display = 'flex';
+                creationMessageEl.style.display = 'block';
+            });
+
+            // --- INITIALIZATION LOGIC ---
+            // If curriculums exist, auto-select the first one. Otherwise, go to creation mode.
+            if (database && database.length > 0) {
+                const firstCurriculumId = database[0].id;
+                const firstCurriculumBtn = document.querySelector('.btn-curriculum-item');
+                selectCurriculum(firstCurriculumId, firstCurriculumBtn);
+            } else {
+                createCurriculumBtn.click();
+            }
+        });
+
+            // Reads the actual JSON content so formatted empty arrays and files
+            // containing a UTF-8 BOM are also recognized.
+            // Author: Dennis Axt
+            async function uploadJson(input) {
+                const file = input.files[0];
+                if (!file) return;
+
+                try {
+                    const content = (await file.text()).replace(/^\uFEFF/, '');
+                    const lessons = JSON.parse(content);
+
+                    if (
+                        Array.isArray(lessons) &&
+                        lessons.length === 0 &&
+                        !confirm(
+                            "You are trying to import an empty curriculum. Are you sure you want to proceed?"
+                        )
+                    ) {
+                        input.value = '';
+                        return;
+                    }
+                } catch {
+                    // Invalid JSON is submitted so server-side validation can display
+                    // the corresponding warning without crashing the application.
+                }
+
+                input.form.requestSubmit();
+            }
+    </script>
