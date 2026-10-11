@@ -48,14 +48,15 @@ Development started with the frontend. During a usability session with the clien
 
 The project wiki contains documentation covering requirements analysis, system design, user scenarios, and team processes.
 
-- [Home](wiki/Home.md)
-- [Domain Model](wiki/Domänenmodell.md)
-- [Design Class Diagram](wiki/Designklassendiagramm.md)
-- [System Operations](wiki/Systemoperationen.md)
-- [Scenarios](wiki/Szenarioen.md)
-- [Storyboards](wiki/Storyboards.md)
-- [Definition of Done](wiki/Definition-of-Done.md)
-- [Customer Requirements and Acceptance Criteria](wiki/Kontrakte-Kundenanforderung-Kriterien.md)
-- [Style Guide](wiki/Style-Guide.md)
-- [Icons Set](wiki/Icons-Set.md)
-- [Responsibilities
+- [Home](Wiki/home.md)
+- [Domain Model](Wiki/Domänenmodell.md)
+- [Design Class Diagram](Wiki/Designklassendiagramm.md)
+- [System Operations](Wiki/Systemoperationen.md)
+- [Scenarios](Wiki/Szenarien.md)
+- [Storyboards](Wiki/Storyboards.md)
+- [Definition of Done](Wiki/Definition-of-Done.md)
+- [Customer Requirements and Acceptance Criteria](Wiki/Kundenanfoderung-Kriterien.md)
+- [Style Guide](Wiki/Style-Guide.md)
+- [Icons Set](Wiki/Icons-Set.md)
+- [Responsibilities](Wiki/Verantwortlichkeiten.md)
+- [Contracts](Wiki/Kontrakte.md)
