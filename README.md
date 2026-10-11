@@ -48,7 +48,6 @@ Development started with the frontend. During a usability session with the clien
 
 The project wiki contains documentation covering requirements analysis, system design, user scenarios, and team processes.
 
-- [Home](Wiki/home.md)
 - [Domain Model](Wiki/Domänenmodell.md)
 - [Design Class Diagram](Wiki/Designklassendiagramm.md)
 - [System Operations](Wiki/Systemoperationen.md)
